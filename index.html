@@ -407,6 +407,23 @@ canvas.sparkline { width: 100% !important; height: 40px !important; }
 }
 .pr-calc-result strong { color: var(--accent); font-size: 15px; }
 
+
+.plan-loading-overlay {
+  position: fixed; inset: 0; z-index: 600;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.plan-loading-overlay.show { opacity: 1; pointer-events: all; }
+.plan-loading-icon { font-size: 48px; animation: spin-slow 1.5s linear infinite; }
+@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.plan-loading-title {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700;
+  letter-spacing: 1px; color: var(--accent);
+}
+.plan-loading-sub { font-size: 13px; color: var(--muted); }
+
 .no-data { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted); }
 input::placeholder { color: var(--muted2); }
 
@@ -716,13 +733,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
   <!-- Screen 1: Welcome -->
   <div class="ob-screen active" id="ob-1">
-    <div class="ob-logo">
-      <div class="ob-logo-icon">
-        <div class="ob-logo-pb">PB</div>
-        <div class="ob-logo-line"></div>
-        <div class="ob-logo-word">PEAKBLOCK</div>
-      </div>
-    </div>
+
     <div class="ob-content">
       <div class="ob-eyebrow">Welcome</div>
       <div class="ob-title">Train smarter.<br>Lift heavier.</div>
@@ -764,6 +775,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
       <div class="ob-dot active"></div>
     </div>
     <button class="ob-btn" onclick="obFinish()">Choose Your Program</button>
+    <button class="ob-btn ob-btn-ghost" style="margin-top:10px" onclick="obSkip()">Maybe later</button>
   </div>
 
 </div>
@@ -1022,6 +1034,11 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   </div>
 </div>
 
+<div class="plan-loading-overlay" id="plan-loading">
+  <div class="plan-loading-icon">⚡</div>
+  <div class="plan-loading-title">Setting up your program...</div>
+  <div class="plan-loading-sub" id="plan-loading-sub">Calculating weights for all 12 weeks</div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1275,6 +1292,17 @@ function renderDays(anim){
   const scroll=document.getElementById('days-scroll');
   if(anim){scroll.classList.remove('slide-left','slide-right');void scroll.offsetWidth;scroll.classList.add('slide-'+anim);}
   scroll.innerHTML='';
+
+  // No plan selected — show empty state
+  if(!activePlan || !PROGRAMS[activePlan]) {
+    scroll.innerHTML = `<div style="padding:2rem 1.25rem;text-align:center">
+      <div style="font-size:40px;margin-bottom:1rem">🏋️</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px;color:var(--accent);margin-bottom:8px">No program selected</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.5rem">Select a training plan to get your sessions automatically set up based on your 1 Rep Max.</div>
+      <button onclick="switchPage('setup');goSetupScreen('setup-plan')" style="padding:12px 24px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;">Choose a Program</button>
+    </div>`;
+    return;
+  }
 
   // Track which day to auto-open: first unsaved, or day 1
   let autoOpen = 1;
@@ -2129,6 +2157,7 @@ function confirmPlanSwitch(planId) {
   }
   activePlan = planId;
   localStorage.setItem('ll_active_plan', planId);
+  localStorage.setItem('ll_onboarding_seen', '1');
   logData = {};
   localStorage.setItem('ll_log', JSON.stringify(logData));
   template = {};
@@ -2288,7 +2317,7 @@ function buildWarmupRows(d, saved, savedLoad, presc) {
 
 // ONBOARDING
 function shouldShowOnboarding() {
-  return !activePlan || !localStorage.getItem('ll_active_plan') ||
+  return !localStorage.getItem('ll_active_plan') &&
     MAIN_LIFTS.every(l => !setupData[l] || setupData[l] === 0);
 }
 
@@ -2301,14 +2330,26 @@ function obFinish() {
   const ob = document.getElementById('onboarding');
   ob.classList.add('hide');
   setTimeout(() => { ob.style.display = 'none'; }, 400);
-  // Go to training plan selection
   switchPage('setup');
   goSetupScreen('setup-plan');
 }
 
+function obSkip() {
+  const ob = document.getElementById('onboarding');
+  ob.classList.add('hide');
+  setTimeout(() => { ob.style.display = 'none'; }, 400);
+  // Mark onboarding as seen but no plan selected
+  localStorage.setItem('ll_onboarding_seen', '1');
+  switchPage('log');
+  renderAll();
+}
+
 function initOnboarding() {
-  if(shouldShowOnboarding()) {
+  const seen = localStorage.getItem('ll_onboarding_seen');
+  if(shouldShowOnboarding() && !seen) {
     document.getElementById('onboarding').style.display = 'flex';
+    // Clear active plan so nothing is pre-selected
+    activePlan = '';
   } else {
     document.getElementById('onboarding').style.display = 'none';
   }
