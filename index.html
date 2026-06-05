@@ -1638,7 +1638,7 @@ function renderPRs(){
           <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
             <button class="pr-calc-toggle" onclick="toggleCalc('${l.replace(/ /g,'_')}')">Don't know? Calculate</button>
             <div class="setup-input-wrap" style="margin-left:0">
-              <input type="number" min="0" step="2.5" placeholder="0" value="${setupData[l]||''}"
+              <input type="number" min="0" step="2.5" placeholder="—" value="${setupData[l]||''}"
                 id="pr_${l.replace(/ /g,'_')}" oninput="onPRInput('${l}', this.value)"/>
               <span>${weightUnit()}</span>
             </div>
