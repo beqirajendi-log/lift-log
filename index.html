@@ -7,6 +7,7 @@
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#111214" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Peakblock" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -80,21 +81,21 @@ body { font-family: 'Barlow', sans-serif; background: var(--bg); color: var(--te
 @keyframes slideR { from { transform:translateX(-55px); opacity:0; } to { transform:translateX(0); opacity:1; } }
 
 .day-card { border-radius: var(--r); border: 1px solid transparent; margin-bottom: 1rem; overflow: hidden; }
-.day-card[data-day="1"] { background: var(--d1bg); border-color: rgba(96,160,255,0.2); }
-.day-card[data-day="2"] { background: var(--d2bg); border-color: rgba(80,220,120,0.2); }
-.day-card[data-day="3"] { background: var(--d3bg); border-color: rgba(180,100,255,0.2); }
-.day-card[data-day="4"] { background: var(--d4bg); border-color: rgba(255,130,80,0.2); }
-.day-card.has-data[data-day="1"] { border-color: var(--d1t); }
-.day-card.has-data[data-day="2"] { border-color: var(--d2t); }
-.day-card.has-data[data-day="3"] { border-color: var(--d3t); }
-.day-card.has-data[data-day="4"] { border-color: var(--d4t); }
+.day-card[data-day="1"],
+.day-card[data-day="2"],
+.day-card[data-day="3"],
+.day-card[data-day="4"] { background: var(--surface); border-color: rgba(240,192,64,0.2); }
+.day-card.has-data[data-day="1"],
+.day-card.has-data[data-day="2"],
+.day-card.has-data[data-day="3"],
+.day-card.has-data[data-day="4"] { border-color: var(--accent); }
 
 .day-header { padding: 12px 16px 10px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: space-between; align-items: center; }
 .day-label { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-.day-card[data-day="1"] .day-label { color: var(--d1t); }
-.day-card[data-day="2"] .day-label { color: var(--d2t); }
-.day-card[data-day="3"] .day-label { color: var(--d3t); }
-.day-card[data-day="4"] .day-label { color: var(--d4t); }
+.day-card[data-day="1"] .day-label,
+.day-card[data-day="2"] .day-label,
+.day-card[data-day="3"] .day-label,
+.day-card[data-day="4"] .day-label { color: var(--accent); }
 .day-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: transparent; transition: all 0.2s; }
 .day-card.has-data .day-check { background: var(--green2); border-color: var(--green); color: var(--green); }
 
@@ -216,11 +217,11 @@ canvas { width: 100% !important; }
 }
 
 
-.day-card.skipped[data-day="1"] { border-color: rgba(96,160,255,0.15); opacity: 0.7; }
-.day-card.skipped[data-day="2"] { border-color: rgba(80,220,120,0.15); opacity: 0.7; }
-.day-card.skipped[data-day="3"] { border-color: rgba(180,100,255,0.15); opacity: 0.7; }
-.day-card.skipped[data-day="4"] { border-color: rgba(255,130,80,0.15); opacity: 0.7; }
-.day-check.skipped-check { background: rgba(120,120,130,0.15); border-color: #7a7b85; color: #7a7b85; }
+.day-card.skipped[data-day="1"],
+.day-card.skipped[data-day="2"],
+.day-card.skipped[data-day="3"],
+.day-card.skipped[data-day="4"] { border-color: var(--border2); opacity: 0.6; }
+.day-check.skipped-check { background: rgba(255,130,80,0.15); border-color: #ff8250; color: #ff8250; }
 .skip-day-btn {
   width: 100%; margin-top: 8px; padding: 8px;
   font-size: 12px; font-family: 'Barlow Condensed', sans-serif;
@@ -247,6 +248,164 @@ canvas { width: 100% !important; }
 .lift-btn[data-lift="Bench Press"].selected { border-color: #50dc78; color: #50dc78; background: rgba(80,220,120,0.1); }
 .lift-btn[data-lift="Deadlift"].selected { border-color: #b464ff; color: #b464ff; background: rgba(180,100,255,0.1); }
 .lift-btn[data-lift="Shoulder Press"].selected { border-color: #ff8250; color: #ff8250; background: rgba(255,130,80,0.1); }
+
+
+/* BLOCK REVIEW */
+.review-hero {
+  background: linear-gradient(180deg, rgba(240,192,64,0.08) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 1.25rem 1.5rem;
+  text-align: center;
+}
+.review-hero-label {
+  font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+  font-size: 12px; letter-spacing: 4px; color: var(--accent); margin-bottom: 4px;
+}
+.review-hero-title {
+  font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+  font-size: 48px; color: var(--text); line-height: 1; letter-spacing: 2px;
+}
+.review-hero-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+.review-stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 1.25rem 0;
+}
+.review-stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem; text-align: center;
+}
+.review-stat-value {
+  font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+  font-size: 36px; color: var(--accent); line-height: 1; letter-spacing: 1px;
+}
+.review-stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+.review-section-label {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 8px; padding-left: 2px;
+}
+
+.review-lift-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem; margin-bottom: 10px;
+}
+.review-lift-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.review-lift-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.review-lift-badge {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px;
+}
+.review-lift-badge.up { background: var(--green2); border: 1px solid var(--green); color: var(--green); }
+.review-lift-badge.none { background: var(--surface2); border: 1px solid var(--border2); color: var(--muted); }
+
+.review-lift-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.review-lift-stat { text-align: center; }
+.review-lift-stat-val { font-size: 15px; font-weight: 700; color: var(--text); }
+.review-lift-stat-lbl { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+.sparkline-wrap { height: 40px; position: relative; }
+canvas.sparkline { width: 100% !important; height: 40px !important; }
+
+.review-next-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.review-next-row:last-child { border-bottom: none; padding-bottom: 0; }
+.review-next-lift { font-size: 14px; font-weight: 600; }
+.review-next-vals { text-align: right; }
+.review-next-new { font-size: 15px; font-weight: 700; color: var(--accent); }
+.review-next-old { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+
+.review-locked {
+  padding: 1.25rem;
+}
+.review-lock-card {
+  background: var(--surface); border: 1px solid rgba(240,192,64,0.2);
+  border-radius: var(--r); padding: 1.25rem;
+}
+.review-lock-top {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+}
+.review-lock-icon { font-size: 28px; flex-shrink: 0; }
+.review-lock-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--accent);
+}
+.review-lock-sub { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+.review-lock-progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--muted); margin-bottom: 5px;
+  font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px;
+}
+.review-lock-track {
+  height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden;
+}
+.review-lock-fill {
+  height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s ease;
+}
+
+
+.sets-header-row {
+  display: grid; grid-template-columns: 20px 1fr 1fr 1fr;
+  gap: 6px; margin-bottom: 4px; padding: 0 2px;
+}
+.sets-header-row span {
+  font-size: 9px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted2); text-align: center;
+}
+.set-input-row {
+  display: grid; grid-template-columns: 20px 1fr 1fr 1fr;
+  gap: 6px; margin-bottom: 6px; align-items: center;
+}
+.set-row-num {
+  font-size: 11px; color: var(--muted2); text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+
+.pr-calc-toggle {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
+  background: none; border: none; cursor: pointer; padding: 0;
+  text-decoration: underline; text-underline-offset: 2px;
+  transition: color 0.15s;
+}
+.pr-calc-toggle:hover { color: var(--accent); }
+.pr-calc-box {
+  display: none; margin-top: 10px; padding: 12px;
+  background: var(--surface2); border-radius: var(--rs);
+  border: 1px solid var(--border2);
+}
+.pr-calc-box.open { display: block; }
+.pr-calc-row {
+  display: grid; grid-template-columns: 1fr 1fr auto;
+  gap: 8px; align-items: flex-end; margin-bottom: 8px;
+}
+.pr-calc-field { display: flex; flex-direction: column; gap: 4px; }
+.pr-calc-field label {
+  font-size: 9px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted2);
+}
+.pr-calc-field input {
+  width: 100%; padding: 8px; font-size: 14px; text-align: center;
+  border-radius: var(--rs); border: 1px solid var(--border2);
+  background: var(--surface); color: var(--text); outline: none;
+}
+.pr-calc-field input:focus { border-color: var(--accent); }
+.pr-calc-btn {
+  padding: 8px 12px; font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  border-radius: var(--rs); border: 1px solid var(--accent);
+  background: var(--accent2); color: var(--accent);
+  cursor: pointer; white-space: nowrap; transition: all 0.15s;
+}
+.pr-calc-btn:hover { background: var(--accent); color: #111; }
+.pr-calc-result {
+  font-size: 12px; color: var(--muted); text-align: center;
+  font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px;
+}
+.pr-calc-result strong { color: var(--accent); font-size: 15px; }
 
 .no-data { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted); }
 input::placeholder { color: var(--muted2); }
@@ -447,12 +606,20 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   border-radius: var(--r); padding: 1rem; margin-bottom: 10px;
   cursor: pointer; transition: all 0.15s;
 }
-.plan-card.active-plan { border-color: var(--accent); background: var(--accent2); }
+.plan-card.active-plan { border-color: rgba(93,219,138,0.5); background: rgba(93,219,138,0.06); }
+.plan-card:not(.active-plan):hover { border-color: var(--border2); background: var(--surface2); }
 .plan-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
 .plan-card-title { font-size: 15px; font-weight: 600; }
 .plan-card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .plan-card-phases { display: flex; flex-direction: column; gap: 5px; }
 .plan-phase { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+
+.plan-completion-count {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; color: var(--muted); text-transform: uppercase;
+}
+.plan-completion-count.has-count { color: var(--accent); }
+
 .plan-coming-soon {
   font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700;
   letter-spacing: 1px; padding: 3px 8px; border-radius: 20px;
@@ -463,6 +630,74 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   letter-spacing: 1px; padding: 4px 10px; border-radius: 20px;
   background: var(--green2); border: 1px solid var(--green); color: var(--green);
 }
+
+/* ONBOARDING */
+#onboarding {
+  position: fixed; inset: 0; z-index: 998;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  transition: opacity 0.4s ease;
+}
+#onboarding.hide { opacity: 0; pointer-events: none; }
+
+.ob-screen { display: none; flex-direction: column; flex: 1; padding: 2rem 1.5rem 2.5rem; }
+.ob-screen.active { display: flex; }
+
+.ob-logo { margin-bottom: auto; padding-top: 2rem; }
+.ob-logo-icon {
+  width: 72px; height: 72px; border-radius: 16px;
+  background: var(--bg); border: 2px solid var(--accent);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow: 0 0 30px rgba(240,192,64,0.1);
+  margin-bottom: 12px;
+}
+.ob-logo-pb {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 32px; font-weight: 900; color: white; line-height: 1;
+  margin-bottom: 4px;
+}
+.ob-logo-line { width: 48px; height: 2px; background: var(--accent); margin-bottom: 4px; }
+.ob-logo-word { font-family: 'Arial Black', sans-serif; font-size: 7px; color: var(--accent); letter-spacing: 2px; }
+
+.ob-content { margin-bottom: 2rem; }
+.ob-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 12px;
+  font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px;
+}
+.ob-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 36px; font-weight: 700; line-height: 1.1;
+  color: var(--text); margin-bottom: 12px; letter-spacing: 0.5px;
+}
+.ob-sub { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+.ob-bullets { display: flex; flex-direction: column; gap: 16px; margin-bottom: 2rem; }
+.ob-bullet { display: flex; gap: 12px; align-items: flex-start; }
+.ob-bullet-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--accent2); border: 1px solid rgba(240,192,64,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; margin-top: 1px;
+}
+.ob-bullet-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
+.ob-bullet-text strong { color: var(--text); font-weight: 600; }
+
+.ob-btn {
+  width: 100%; padding: 15px;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 16px;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  border-radius: var(--rs); border: 1px solid var(--accent);
+  background: var(--accent); color: #111;
+  cursor: pointer; transition: all 0.15s; margin-top: auto;
+}
+.ob-btn:hover { opacity: 0.9; }
+.ob-btn-ghost {
+  background: transparent; color: var(--accent);
+}
+.ob-step-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 1.5rem; }
+.ob-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); transition: all 0.2s; }
+.ob-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -477,6 +712,62 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   </div>
 </div>
 
+<div id="onboarding">
+
+  <!-- Screen 1: Welcome -->
+  <div class="ob-screen active" id="ob-1">
+    <div class="ob-logo">
+      <div class="ob-logo-icon">
+        <div class="ob-logo-pb">PB</div>
+        <div class="ob-logo-line"></div>
+        <div class="ob-logo-word">PEAKBLOCK</div>
+      </div>
+    </div>
+    <div class="ob-content">
+      <div class="ob-eyebrow">Welcome</div>
+      <div class="ob-title">Train smarter.<br>Lift heavier.</div>
+      <div class="ob-sub">Your personal strength coach — built around your numbers, designed to get you stronger every week.</div>
+    </div>
+    <div class="ob-step-dots">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <button class="ob-btn" onclick="obNext()">Get Started</button>
+  </div>
+
+  <!-- Screen 2: How it works -->
+  <div class="ob-screen" id="ob-2">
+    <div class="ob-content" style="padding-top:2rem">
+      <div class="ob-eyebrow">How it works</div>
+      <div class="ob-title">Your 1RM drives everything.</div>
+    </div>
+    <div class="ob-bullets">
+      <div class="ob-bullet">
+        <div class="ob-bullet-icon">🎯</div>
+        <div class="ob-bullet-text"><strong>Enter your 1 Rep Max once.</strong> Peakblock calculates every weight, every set, for every session across your entire cycle.</div>
+      </div>
+      <div class="ob-bullet">
+        <div class="ob-bullet-icon">📈</div>
+        <div class="ob-bullet-text"><strong>Follow a proven program.</strong> Choose from structured plans built around periodization — so you peak at the right time, not by accident.</div>
+      </div>
+      <div class="ob-bullet">
+        <div class="ob-bullet-icon">🏆</div>
+        <div class="ob-bullet-text"><strong>Hit PRs, not plateaus.</strong> As you log sessions, your PRs update automatically and your next cycle starts heavier.</div>
+      </div>
+      <div class="ob-bullet">
+        <div class="ob-bullet-icon">⚡</div>
+        <div class="ob-bullet-text"><strong>No guesswork in the gym.</strong> Open the app, see exactly what to lift, log it, done.</div>
+      </div>
+    </div>
+    <div class="ob-step-dots">
+      <div class="ob-dot"></div>
+      <div class="ob-dot active"></div>
+    </div>
+    <button class="ob-btn" onclick="obFinish()">Choose Your Program</button>
+  </div>
+
+</div>
+
 <div id="splash">
   <div class="splash-icon">
     <div class="splash-pb">PB</div>
@@ -489,17 +780,17 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="switchPage('log')">Log</button>
-  <button class="nav-tab" onclick="switchPage('charts')">Charts</button>
   <button class="nav-tab" onclick="switchPage('prs')">PRs</button>
+  <button class="nav-tab" onclick="switchPage('charts')">Charts</button>
   <button class="nav-tab" onclick="switchPage('setup')">Setup</button>
 </div>
 
 <div id="page-log" class="page active">
   <div class="page-header">
-    <h2>Peakblock</h2>
-    <p>Strength · Periodization · Progress</p>
+    <h2 id="log-plan-name" style="font-size:18px;letter-spacing:1px">12-Week Periodization</h2>
+    <p>Peakblock</p>
   </div>
-  <div id="template-banner-wrap"></div>
+
   <div class="cycle-progress-wrap">
     <div class="cycle-progress-label">
       <span id="progress-label">Week 1 of 12</span>
@@ -560,8 +851,8 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
       <div class="setup-menu-item" onclick="goSetupScreen('setup-plan')">
         <div class="setup-menu-left">
-          <div class="setup-menu-title">Training Plan</div>
-          <div class="setup-menu-sub">12-Week Periodization · Active</div>
+          <div class="setup-menu-title">Training Plans</div>
+          <div class="setup-menu-sub" id="training-plan-sub">12-Week Periodization · Active</div>
         </div>
         <span class="setup-menu-chevron">›</span>
       </div>
@@ -570,6 +861,22 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
         <div class="setup-menu-left">
           <div class="setup-menu-title">Units</div>
           <div class="setup-menu-sub" id="units-sub">Weight · Distance</div>
+        </div>
+        <span class="setup-menu-chevron">›</span>
+      </div>
+
+      <div class="setup-menu-item" onclick="goSetupScreen('setup-review')">
+        <div class="setup-menu-left">
+          <div class="setup-menu-title">Block Review</div>
+          <div class="setup-menu-sub" id="review-sub-menu">Unlocks when cycle is complete</div>
+        </div>
+        <span class="setup-menu-chevron">›</span>
+      </div>
+
+      <div class="setup-menu-item" onclick="goSetupScreen('setup-archived')">
+        <div class="setup-menu-left">
+          <div class="setup-menu-title">Cycle History</div>
+          <div class="setup-menu-sub" id="archived-sub">Past training cycles</div>
         </div>
         <span class="setup-menu-chevron">›</span>
       </div>
@@ -592,6 +899,25 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- BLOCK REVIEW -->
+    <div id="setup-review" class="setup-screen">
+      <button class="setup-back-btn" onclick="goSetupScreen('setup-main')">‹ Back</button>
+      <div id="setup-review-content"></div>
+    </div>
+
+    <!-- ARCHIVED CYCLES -->
+    <div id="setup-archived" class="setup-screen">
+      <button class="setup-back-btn" onclick="goSetupScreen('setup-main')">‹ Back</button>
+      <div class="page-header" style="padding:0 0 1.25rem"><h2>Cycle History</h2><p>Your past training cycles</p></div>
+      <div id="archived-list"></div>
+    </div>
+
+    <!-- ARCHIVED CYCLE DETAIL -->
+    <div id="setup-archived-detail" class="setup-screen">
+      <button class="setup-back-btn" onclick="goSetupScreen('setup-archived')">‹ Back</button>
+      <div id="archived-detail-content"></div>
     </div>
 
     <!-- UNITS -->
@@ -617,15 +943,18 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     <!-- TRAINING PLAN -->
     <div id="setup-plan" class="setup-screen">
       <button class="setup-back-btn" onclick="goSetupScreen('setup-main')">‹ Back</button>
-      <div class="page-header" style="padding:0 0 1.25rem"><h2>Training Plan</h2><p>Select your program</p></div>
+      <div class="page-header" style="padding:0 0 1.25rem"><h2>Available Training Plans</h2><p>Select your program</p></div>
 
-      <div class="plan-card active-plan">
+      <div class="plan-card" id="plan-12w-card" onclick="selectPlan('12week')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">12-Week Periodization</div>
             <div class="plan-card-sub">Accumulation → Intensification → Peak Strength</div>
           </div>
-          <div class="active-plan-badge">Active</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+            <div id="plan-12w-badge" class="active-plan-badge" style="display:none">Active</div>
+            <div id="plan-12w-count" class="plan-completion-count"></div>
+          </div>
         </div>
         <div class="plan-card-phases">
           <div class="plan-phase"><span style="color:#f0c040">●</span> Weeks 1–4: Accumulation (5×5)</div>
@@ -635,13 +964,22 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
         </div>
       </div>
 
-      <div class="plan-card" style="opacity:0.5">
+      <div class="plan-card" id="plan-531-card" onclick="selectPlan('531')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
-            <div class="plan-card-title">5/3/1</div>
-            <div class="plan-card-sub">Jim Wendler's classic strength program</div>
+            <div class="plan-card-title">5/3/1 Wendler</div>
+            <div class="plan-card-sub">Proven long-term strength program</div>
           </div>
-          <div class="plan-coming-soon">Coming soon</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+            <div id="plan-531-badge" class="active-plan-badge" style="display:none">Active</div>
+            <div id="plan-531-count" class="plan-completion-count"></div>
+          </div>
+        </div>
+        <div class="plan-card-phases">
+          <div class="plan-phase"><span style="color:#f0c040">●</span> Weeks 1–4: 5s Week → 3s Week → 5/3/1 → Deload</div>
+          <div class="plan-phase"><span style="color:#ff8250">●</span> Weeks 5–8: Cycle 2 (TM +5/10lbs)</div>
+          <div class="plan-phase"><span style="color:#5ddb8a">●</span> Weeks 9–12: Cycle 3 (TM +5/10lbs)</div>
+          <div class="plan-phase"><span style="color:#60a0ff">●</span> Weeks 4, 8, 12: Deload</div>
         </div>
       </div>
 
@@ -664,6 +1002,26 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 </div>
 </div>
 
+<div id="page-review" class="page">
+  <div class="review-hero">
+    <div class="review-hero-label">CYCLE COMPLETE</div>
+    <div class="review-hero-title">Block Review</div>
+    <div class="review-hero-sub" id="review-sub">12-Week Periodization</div>
+  </div>
+  <div class="inner-pad" style="padding-top:0">
+    <!-- TOP STATS -->
+    <div class="review-stats-grid" id="review-stats"></div>
+    <!-- PER LIFT -->
+    <div class="review-section-label">Lift Progression</div>
+    <div id="review-lifts"></div>
+    <!-- START NEW CYCLE -->
+    <div style="display:flex;gap:10px;margin-top:0.5rem">
+      <button class="save-setup-btn" style="flex:1" onclick="startNewCycle('same')">Start New Cycle</button>
+      <button class="save-setup-btn" style="flex:1;border-color:var(--border2);color:var(--muted)" onclick="startNewCycle('new')">Change Plan</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -683,28 +1041,89 @@ const ALL_ACCESSORIES = [
   'Seated Calf Raise','Shoulder Raises','Single Leg RDL','Skull Crusher',
   'Step Up','T-Bar Row','Tricep Pushdown','Walking Lunges'
 ];
-const PROGRAM = [
-  {phase:'Accumulation',   sets:5, reps:5, pct:0.750, deload:false},
-  {phase:'Accumulation',   sets:5, reps:5, pct:0.775, deload:false},
-  {phase:'Accumulation',   sets:5, reps:5, pct:0.800, deload:false},
-  {phase:'Deload',         sets:3, reps:5, pct:0.600, deload:true},
-  {phase:'Intensification',sets:5, reps:4, pct:0.825, deload:false},
-  {phase:'Intensification',sets:5, reps:4, pct:0.850, deload:false},
-  {phase:'Intensification',sets:5, reps:3, pct:0.875, deload:false},
-  {phase:'Deload',         sets:3, reps:4, pct:0.650, deload:true},
-  {phase:'Peak Strength',  sets:5, reps:3, pct:0.900, deload:false},
-  {phase:'Peak Strength',  sets:4, reps:2, pct:0.925, deload:false},
-  {phase:'Peak Strength',  sets:3, reps:2, pct:0.950, deload:false},
-  {phase:'Deload / Test',  sets:3, reps:3, pct:0.600, deload:true},
-];
+// ═══════════════════════════════
+// PROGRAM REGISTRY — add new programs here
+// ═══════════════════════════════
+const PROGRAMS = {
+  '12week': {
+    id: '12week',
+    name: '12-Week Periodization',
+    description: 'Accumulation → Intensification → Peak Strength',
+    weeks: 12,
+    days: 4,
+    useTM: false, // uses % of 1RM directly
+    warmupRows: 2, // number of warmup rows (60%/80% of working load)
+    dayLifts: ['Back Squat','Bench Press','Deadlift','Shoulder Press'],
+    weeklyScheme: [
+      {phase:'Accumulation',    sets:5, reps:5, pct:0.750, deload:false},
+      {phase:'Accumulation',    sets:5, reps:5, pct:0.775, deload:false},
+      {phase:'Accumulation',    sets:5, reps:5, pct:0.800, deload:false},
+      {phase:'Deload',          sets:3, reps:5, pct:0.600, deload:true},
+      {phase:'Intensification', sets:5, reps:4, pct:0.825, deload:false},
+      {phase:'Intensification', sets:5, reps:4, pct:0.850, deload:false},
+      {phase:'Intensification', sets:5, reps:3, pct:0.875, deload:false},
+      {phase:'Deload',          sets:3, reps:4, pct:0.650, deload:true},
+      {phase:'Peak Strength',   sets:5, reps:3, pct:0.900, deload:false},
+      {phase:'Peak Strength',   sets:4, reps:2, pct:0.925, deload:false},
+      {phase:'Peak Strength',   sets:3, reps:2, pct:0.950, deload:false},
+      {phase:'Deload / Test',   sets:3, reps:3, pct:0.600, deload:true},
+    ],
+    accessories: {
+      1: [], 2: [], 3: [], 4: []
+    }
+  },
+  '531': {
+    id: '531',
+    name: '5/3/1 Wendler',
+    description: 'Proven long-term strength program by Jim Wendler',
+    weeks: 12,
+    days: 4,
+    useTM: true, // uses Training Max = 90% of 1RM
+    tmPct: 0.90,
+    warmupRows: 0, // no separate warmup rows
+    lowerLifts: ['Back Squat','Deadlift'], // get +10lbs bump, upper gets +5lbs
+    dayLifts: ['Back Squat','Bench Press','Deadlift','Shoulder Press'],
+    // 4-week cycle repeating x3: 5s week, 3s week, 5/3/1 week, deload
+    weeklyScheme: [
+      // Cycle 1
+      {phase:'5s Week',   sets:[{s:1,r:5,pct:0.65},{s:1,r:5,pct:0.75},{s:1,r:5,pct:0.85,amrap:true}], cycle:1},
+      {phase:'3s Week',   sets:[{s:1,r:3,pct:0.70},{s:1,r:3,pct:0.80},{s:1,r:3,pct:0.90,amrap:true}], cycle:1},
+      {phase:'5/3/1 Week',sets:[{s:1,r:5,pct:0.75},{s:1,r:3,pct:0.85},{s:1,r:1,pct:0.95,amrap:true}], cycle:1},
+      {phase:'Deload',    sets:[{s:1,r:5,pct:0.40},{s:1,r:5,pct:0.50},{s:1,r:5,pct:0.60}], deload:true, cycle:1},
+      // Cycle 2 (TM bumped in getTM)
+      {phase:'5s Week',   sets:[{s:1,r:5,pct:0.65},{s:1,r:5,pct:0.75},{s:1,r:5,pct:0.85,amrap:true}], cycle:2},
+      {phase:'3s Week',   sets:[{s:1,r:3,pct:0.70},{s:1,r:3,pct:0.80},{s:1,r:3,pct:0.90,amrap:true}], cycle:2},
+      {phase:'5/3/1 Week',sets:[{s:1,r:5,pct:0.75},{s:1,r:3,pct:0.85},{s:1,r:1,pct:0.95,amrap:true}], cycle:2},
+      {phase:'Deload',    sets:[{s:1,r:5,pct:0.40},{s:1,r:5,pct:0.50},{s:1,r:5,pct:0.60}], deload:true, cycle:2},
+      // Cycle 3
+      {phase:'5s Week',   sets:[{s:1,r:5,pct:0.65},{s:1,r:5,pct:0.75},{s:1,r:5,pct:0.85,amrap:true}], cycle:3},
+      {phase:'3s Week',   sets:[{s:1,r:3,pct:0.70},{s:1,r:3,pct:0.80},{s:1,r:3,pct:0.90,amrap:true}], cycle:3},
+      {phase:'5/3/1 Week',sets:[{s:1,r:5,pct:0.75},{s:1,r:3,pct:0.85},{s:1,r:1,pct:0.95,amrap:true}], cycle:3},
+      {phase:'Deload',    sets:[{s:1,r:5,pct:0.40},{s:1,r:5,pct:0.50},{s:1,r:5,pct:0.60}], deload:true, cycle:3},
+    ],
+    accessories: {
+      1: [{ex:'Romanian Deadlift',s:'3',r:'10'},{ex:'Leg Press',s:'3',r:'10'},{ex:'Calf Raises',s:'3',r:'15'}],
+      2: [{ex:'Barbell Row',s:'3',r:'10'},{ex:'Face Pulls',s:'3',r:'15'},{ex:'Tricep Pushdown',s:'3',r:'12'}],
+      3: [{ex:'Hip Thrust',s:'3',r:'10'},{ex:'Leg Curl',s:'3',r:'10'},{ex:'Back Extension',s:'3',r:'12'}],
+      4: [{ex:'DB Row',s:'3',r:'10'},{ex:'Rear Delt Fly',s:'3',r:'15'},{ex:'Bicep Curl',s:'3',r:'12'}]
+    }
+  }
+};
+
+// Legacy compat — keep PROGRAM pointing to active plan's scheme for non-531 code paths
+const PROGRAM = PROGRAMS['12week'].weeklyScheme;
 const PHASE_COLORS = {
   'Accumulation':'#f0c040','Intensification':'#ff8250',
-  'Peak Strength':'#5ddb8a','Deload':'#60a0ff','Deload / Test':'#60a0ff'
+  'Peak Strength':'#5ddb8a','Deload':'#60a0ff','Deload / Test':'#60a0ff',
+  '5s Week':'#f0c040','3s Week':'#ff8250','5/3/1 Week':'#5ddb8a'
 };
-const TOTAL_WEEKS=12, DAYS=4;
+let TOTAL_WEEKS=12, DAYS=4;
+function getActivePlan(){ return PROGRAMS[activePlan] || PROGRAMS["12week"]; }
+function syncPlanConstants(){ const p=getActivePlan(); TOTAL_WEEKS=p.weeks; DAYS=p.days; }
 let currentWeek=1;
 let logData=JSON.parse(localStorage.getItem('ll_log')||'{}');
 let appUnits=JSON.parse(localStorage.getItem('ll_units')||'{"weight":"lbs","distance":"km"}');
+let activePlan=localStorage.getItem('ll_active_plan')||'12week';
 let setupData=JSON.parse(localStorage.getItem('ll_setup')||'{}');
 // template: {day: {lift, accs:[{ex,s,r}]}}
 let template=JSON.parse(localStorage.getItem('ll_template')||'{}');
@@ -715,19 +1134,39 @@ function getLog(w,d){return logData[key(w,d)]||null;}
 function setLog(w,d,v){logData[key(w,d)]=v;localStorage.setItem('ll_log',JSON.stringify(logData));}
 function weekDone(w){let n=0;for(let d=1;d<=DAYS;d++){const e=getLog(w,d);if(e?.saved||e?.skipped)n++;}return n;}
 function round25(v){return Math.round(v/2.5)*2.5;}
-function getPrescription(week,lift){
-  const prog=PROGRAM[week-1];
-  const oneRM=setupData[lift]||0;
-  const load=oneRM?round25(oneRM*prog.pct):0;
-  return {sets:prog.sets,reps:prog.reps,load,pct:prog.pct};
+function getPrescription(week, lift) {
+  const plan = getActivePlan();
+  const scheme = plan.weeklyScheme[week-1];
+  if(!scheme) return {sets:1,reps:1,load:0,pct:0};
+  const oneRM = setupData[lift] || 0;
+
+  if(plan.useTM) {
+    // Calculate Training Max
+    const cycleNum = scheme.cycle || Math.ceil(week/4);
+    const isLower = (plan.lowerLifts||[]).includes(lift);
+    const bumpPerCycle = isLower ? 10 : 5;
+    const tm = oneRM ? round25((oneRM * plan.tmPct) + (cycleNum-1) * bumpPerCycle) : 0;
+    const sets = scheme.sets || [];
+    const topSet = sets[sets.length-1] || {s:1,r:1,pct:0};
+    const load = tm ? round25(tm * topSet.pct) : 0;
+    return {sets:topSet.s, reps:topSet.r, load, pct:topSet.pct,
+            amrap:topSet.amrap, tm, weekPlan:scheme, is531:true, phase:scheme.phase};
+  } else {
+    const load = oneRM ? round25(oneRM * scheme.pct) : 0;
+    return {sets:scheme.sets, reps:scheme.reps, load, pct:scheme.pct, phase:scheme.phase, deload:scheme.deload};
+  }
 }
 
 function init(){
+  syncPlanConstants();
+  initOnboarding();
   for(let w=TOTAL_WEEKS;w>=1;w--){if(weekDone(w)>0){currentWeek=w;break;}}
   initTheme();
   setupAutoAdvance();
   updateUnitButtons();
   updateUnitsSubLabel();
+  updatePlanBadges();
+  updateLogPlanName();
   renderSetup();renderAll();
   document.addEventListener('keydown',e=>{
     if(e.key==='ArrowLeft')changeWeek(-1,'right');
@@ -746,7 +1185,7 @@ function switchPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  ['log','charts','prs','setup'].forEach((id,i)=>{if(id===p)document.querySelectorAll('.nav-tab')[i].classList.add('active');});
+  ['log','prs','charts','setup'].forEach((id,i)=>{if(id===p)document.querySelectorAll('.nav-tab')[i].classList.add('active');});
   if(p==='prs')renderPRs();
   if(p==='charts')renderChart();
   if(p==='setup')goSetupScreen('setup-main');
@@ -758,13 +1197,15 @@ function changeWeek(dir,anim){
   currentWeek=n;renderAll(anim);
 }
 
-function renderAll(anim){renderHeader();renderDots();renderTemplateBanner();renderDays(anim);updateProgressBar();}
+function renderAll(anim){renderHeader();renderDots();renderDays(anim);updateProgressBar();}
 
 function renderHeader(){
-  const prog=PROGRAM[currentWeek-1];
+  const plan = getActivePlan();
+  const scheme = plan.weeklyScheme[currentWeek-1] || {};
+  const phaseName = scheme.phase || '';
   document.getElementById('week-display').textContent=`WEEK ${currentWeek}`;
   const ph=document.getElementById('week-phase');
-  ph.textContent=prog.phase;ph.style.color=PHASE_COLORS[prog.phase]||'var(--accent)';
+  ph.textContent=phaseName; ph.style.color=PHASE_COLORS[phaseName]||'var(--accent)';
   document.getElementById('prev-btn').disabled=currentWeek===1;
   document.getElementById('next-btn').disabled=currentWeek===TOTAL_WEEKS;
   const done=weekDone(currentWeek);
@@ -784,7 +1225,7 @@ function renderDots(){
   }
 }
 
-function renderTemplateBanner(){
+function renderTemplateBanner_disabled(){
   const wrap=document.getElementById('template-banner-wrap');
   const hasTemplate=Object.keys(template).length>0;
   const isWeek1=currentWeek===1;
@@ -830,6 +1271,7 @@ function applyTemplateAllWeeks(){
 }
 
 function renderDays(anim){
+  const plan=getActivePlan();
   const scroll=document.getElementById('days-scroll');
   if(anim){scroll.classList.remove('slide-left','slide-right');void scroll.offsetWidth;scroll.classList.add('slide-'+anim);}
   scroll.innerHTML='';
@@ -842,19 +1284,32 @@ function renderDays(anim){
     const saved=getLog(currentWeek,d);
     const hasSave=saved?.saved;
     const selLift=saved?.lift||'';
-    const presc=selLift?getPrescription(currentWeek,selLift):null;
+    const presc=selLift?getPrescription(currentWeek,selLift):(plan.useTM?{weekPlan:plan.weeklyScheme[currentWeek-1],tm:0,phase:(plan.weeklyScheme[currentWeek-1]||{}).phase||'',sets:1,reps:1,load:0,pct:0,is531:true}:null);
     const savedSets=saved?.sets!==undefined?saved.sets:(presc?.sets||'');
     const savedReps=saved?.reps!==undefined?saved.reps:(presc?.reps||'');
     const savedLoad=saved?.load!==undefined?saved.load:(presc?.load||'');
     const liftColor=selLift?LIFT_COLORS[selLift]:'rgba(255,255,255,0.1)';
-    const pctLabel=presc?`${Math.round(presc.pct*100)}% 1RM · ${PROGRAM[currentWeek-1].sets}×${PROGRAM[currentWeek-1].reps}`:'Select a lift to auto-fill';
+    let pctLabel = 'Select a lift to auto-fill';
+    if(presc) {
+      if(plan.useTM && presc && presc.weekPlan) {
+        const sets531 = presc.weekPlan.sets;
+        const topSet = sets531[sets531.length-1];
+        pctLabel = `${presc.phase} · TM: ${presc.tm||'—'} ${weightUnit()}`;
+      } else {
+        pctLabel = `${Math.round(presc.pct*100)}% 1RM · ${PROGRAM[currentWeek-1].sets}×${PROGRAM[currentWeek-1].reps}`;
+      }
+    }
     const accs=saved?.accs||[{ex:'',s:'',r:''}];
     const accHTML=accs.map((a,i)=>buildAccItem(d,i,a)).join('');
 
     const isSkipped=saved?.skipped||false;
     const isOpen = d === autoOpen;
-    const summaryText = isSkipped ? 'Skipped' : (selLift
-      ? `${selLift} · ${savedSets}×${savedReps} @ ${savedLoad} ${weightUnit()}`
+    const displayLift = selLift || '';
+    const displayLoad = savedLoad || '';
+    const displaySets = savedSets || '';
+    const displayReps = savedReps || '';
+    const summaryText = isSkipped ? 'Skipped' : (displayLift
+      ? `${displayLift}${displaySets && displayReps && displayLoad ? ` · ${displaySets}×${displayReps} @ ${displayLoad} ${weightUnit()}` : ''}`
       : 'Tap to log');
 
     const card=document.createElement('div');
@@ -881,12 +1336,9 @@ function renderDays(anim){
           ${MAIN_LIFTS.map(l=>`<option value="${l}"${l===selLift?' selected':''}>${l}</option>`).join('')}
         </select>
         <div class="lift-color-bar" id="d${d}_colorbar" style="background:${liftColor}88"></div>
-        <div class="prescription-row">
-          <div class="presc-field"><label>Sets</label><input class="presc-input" type="number" min="1" id="d${d}_sets" value="${savedSets}" placeholder="—" oninput="resetSaveBtn(${d})"/></div>
-          <div class="presc-field"><label>Reps</label><input class="presc-input" type="number" min="1" id="d${d}_reps" value="${savedReps}" placeholder="—" oninput="resetSaveBtn(${d})"/></div>
-          <div class="presc-field"><label>Load</label><input class="presc-input" type="number" min="0" step="2.5" id="d${d}_load" value="${savedLoad}" placeholder="${weightUnit()}" oninput="resetSaveBtn(${d})"/></div>
-        </div>
-        <div class="presc-hint">${pctLabel}</div>
+        <div class="sets-header-row"><span></span><span>Sets</span><span>Reps</span><span>Load</span></div>
+        ${buildWarmupRows(d, saved, savedLoad, presc)}
+        ${buildWorkingRows(d, saved, savedSets, savedReps, savedLoad, presc)}
         <div class="acc-divider"></div>
         <div class="section-label">Accessories</div>
         <div id="d${d}_accs">${accHTML}</div>
@@ -985,39 +1437,94 @@ function onLiftChange(d){
   document.getElementById(`d${d}_colorbar`).style.background=lift?LIFT_COLORS[lift]+'88':'rgba(255,255,255,0.1)';
   if(!lift)return;
   const presc=getPrescription(currentWeek,lift);
-  ['sets','reps','load'].forEach(f=>{
-    const el=document.getElementById(`d${d}_${f}`);
-    el.value=f==='load'?(presc.load||''):presc[f];
+
+  function setField(id, val) {
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.value=val;
     el.classList.add('auto-filled');
     el.addEventListener('input',()=>el.classList.remove('auto-filled'),{once:true});
-  });
+  }
+
+  if(activePlan==='531') {
+    if(!presc.weekPlan) return;
+    presc.weekPlan.sets.forEach((s,i)=>{
+      setField(`d${d}_ws${i+1}_sets`, s.s);
+      setField(`d${d}_ws${i+1}_reps`, s.r);
+      setField(`d${d}_ws${i+1}_load`, presc.tm ? Math.round(presc.tm*s.pct/2.5)*2.5 : '');
+    });
+  } else {
+    setField(`d${d}_sets`, presc.sets);
+    setField(`d${d}_reps`, presc.reps);
+    setField(`d${d}_load`, presc.load||'');
+    if(presc.load) {
+      setField(`d${d}_w1_load`, Math.round(presc.load*0.6/2.5)*2.5);
+      setField(`d${d}_w2_load`, Math.round(presc.load*0.8/2.5)*2.5);
+    }
+  }
 }
 
 function saveDay(d){
   const lift=document.getElementById(`d${d}_lift`).value;
   if(!lift){showToast('Select a main lift');return;}
-  const sets=document.getElementById(`d${d}_sets`).value;
-  const reps=document.getElementById(`d${d}_reps`).value;
-  const load=document.getElementById(`d${d}_load`).value;
-  if(!sets||!reps||!load){showToast('Fill in sets, reps & load');return;}
+  let sets, reps, load;
+  if(activePlan==='531') {
+    // Use top working set (last one) as main for PR check / summary
+    const ws3_load = document.getElementById(`d${d}_ws3_load`)?.value;
+    const ws3_reps = document.getElementById(`d${d}_ws3_reps`)?.value;
+    const ws3_sets = document.getElementById(`d${d}_ws3_sets`)?.value;
+    sets = ws3_sets||'1'; reps = ws3_reps||'1'; load = ws3_load||'0';
+    if(!load||load==='0'){showToast('Fill in working set loads');return;}
+  } else {
+    sets = document.getElementById(`d${d}_sets`).value;
+    reps = document.getElementById(`d${d}_reps`).value;
+    load = document.getElementById(`d${d}_load`).value;
+    if(!sets||!reps||!load){showToast('Fill in sets, reps & load');return;}
+  }
+  const warmup1={
+    sets:document.getElementById(`d${d}_w1_sets`)?.value||'1',
+    reps:document.getElementById(`d${d}_w1_reps`)?.value||'10',
+    load:document.getElementById(`d${d}_w1_load`)?.value||'0'
+  };
+  const warmup2={
+    sets:document.getElementById(`d${d}_w2_sets`)?.value||'1',
+    reps:document.getElementById(`d${d}_w2_reps`)?.value||'6',
+    load:document.getElementById(`d${d}_w2_load`)?.value||'0'
+  };
+  const warmup3=activePlan==='531'?{
+    sets:document.getElementById(`d${d}_w3_sets`)?.value||'1',
+    reps:document.getElementById(`d${d}_w3_reps`)?.value||'5',
+    load:document.getElementById(`d${d}_w3_load`)?.value||'0'
+  }:null;
   const accs=collectAccs(d);
   // Check PR BEFORE saving so current entry isn't included in previous bests
   const prOneRM = checkPR(lift, parseFloat(load), parseFloat(reps), parseFloat(sets));
-  setLog(currentWeek,d,{lift,sets:parseFloat(sets),reps:parseFloat(reps),load:parseFloat(load),accs,saved:true,ts:Date.now()});
+  const worksets531 = activePlan==='531' ? {
+    workset1: {sets:document.getElementById(`d${d}_ws1_sets`)?.value||'1', reps:document.getElementById(`d${d}_ws1_reps`)?.value||'5', load:document.getElementById(`d${d}_ws1_load`)?.value||'0'},
+    workset2: {sets:document.getElementById(`d${d}_ws2_sets`)?.value||'1', reps:document.getElementById(`d${d}_ws2_reps`)?.value||'3', load:document.getElementById(`d${d}_ws2_load`)?.value||'0'},
+    workset3: {sets:document.getElementById(`d${d}_ws3_sets`)?.value||'1', reps:document.getElementById(`d${d}_ws3_reps`)?.value||'1', load:document.getElementById(`d${d}_ws3_load`)?.value||'0'},
+  } : {};
+  setLog(currentWeek,d,{lift,sets:parseFloat(sets),reps:parseFloat(reps),load:parseFloat(load),warmup1,warmup2,...(warmup3&&{warmup3}),...worksets531,accs,saved:true,ts:Date.now()});
+  // Auto-update 1RM if this load is higher than current PR
+  const currentPR = setupData[lift] || 0;
+  if(parseFloat(load) > currentPR) {
+    setupData[lift] = parseFloat(load);
+    localStorage.setItem('ll_setup', JSON.stringify(setupData));
+  }
   const card=document.getElementById(`dc-${d}`);
   card.classList.add('has-data');
   const chk=card.querySelector('.day-check');
   chk.textContent='✓';chk.style.background='var(--green2)';chk.style.borderColor='var(--green)';chk.style.color='var(--green)';
   document.getElementById(`sb-${d}`).textContent='✓ Saved';
   document.getElementById(`sb-${d}`).classList.add('saved');
-  renderHeader();renderDots();updateProgressBar();
+  renderHeader();renderDots();updateProgressBar();checkCycleComplete();
   haptic(50);
 
   if(currentWeek===1){
     if(!template[d])template[d]={};
     template[d]={lift,accs};
     localStorage.setItem('ll_template',JSON.stringify(template));
-    renderTemplateBanner();
+    
   }
 
   // Auto-advance to next unsaved day
@@ -1043,6 +1550,9 @@ function renderChart(){
   for(let w=1;w<=TOTAL_WEEKS;w++)for(let d=1;d<=DAYS;d++){
     const e=getLog(w,d);if(!e?.saved||!e.lift)continue;
     vol[e.lift][w-1]+=e.sets*e.reps*e.load;
+    if(e.warmup1?.load) vol[e.lift][w-1]+=parseFloat(e.warmup1.sets||1)*parseFloat(e.warmup1.reps||5)*parseFloat(e.warmup1.load||0);
+    if(e.warmup2?.load) vol[e.lift][w-1]+=parseFloat(e.warmup2.sets||1)*parseFloat(e.warmup2.reps||3)*parseFloat(e.warmup2.load||0);
+    if(e.warmup3?.load) vol[e.lift][w-1]+=parseFloat(e.warmup3.sets||1)*parseFloat(e.warmup3.reps||5)*parseFloat(e.warmup3.load||0);
   }
   const used=MAIN_LIFTS.filter(l=>vol[l].some(v=>v>0));
   const disp=used.length?used:MAIN_LIFTS;
@@ -1073,16 +1583,58 @@ function renderPRs(){
   c.innerHTML=`
     <div class="lift-setup-card">
       ${MAIN_LIFTS.map(l=>`
-        <div class="setup-row">
+        <div class="setup-row" style="flex-wrap:wrap;gap:6px">
           <span class="setup-lift-name" style="color:${LIFT_COLORS[l]}">${l}</span>
-          <div class="setup-input-wrap">
-            <input type="number" min="0" step="2.5" placeholder="0" value="${setupData[l]||''}" 
-              id="pr_${l.replace(/ /g,'_')}" oninput="onPRInput('${l}', this.value)"/>
-            <span>${weightUnit()}</span>
+          <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+            <button class="pr-calc-toggle" onclick="toggleCalc('${l.replace(/ /g,'_')}')">Don't know? Calculate</button>
+            <div class="setup-input-wrap" style="margin-left:0">
+              <input type="number" min="0" step="2.5" placeholder="0" value="${setupData[l]||''}"
+                id="pr_${l.replace(/ /g,'_')}" oninput="onPRInput('${l}', this.value)"/>
+              <span>${weightUnit()}</span>
+            </div>
           </div>
+        </div>
+        <div class="pr-calc-box" id="calc_${l.replace(/ /g,'_')}">
+          <div class="pr-calc-row">
+            <div class="pr-calc-field">
+              <label>Weight (${weightUnit()})</label>
+              <input type="number" min="0" step="2.5" placeholder="0" id="calcw_${l.replace(/ /g,'_')}"/>
+            </div>
+            <div class="pr-calc-field">
+              <label>Reps</label>
+              <input type="number" min="1" max="30" placeholder="0" id="calcr_${l.replace(/ /g,'_')}"/>
+            </div>
+            <button class="pr-calc-btn" onclick="calcOneRM('${l}','${l.replace(/ /g,'_')}')">Calc</button>
+          </div>
+          <div class="pr-calc-result" id="calcres_${l.replace(/ /g,'_')}"></div>
         </div>`).join('')}
       <p class="setup-note" style="margin-top:0.75rem">Your personal records are the foundation of your training plan — every session, every phase, every progression starts here.</p>
     </div>`;
+}
+
+function toggleCalc(key) {
+  const box = document.getElementById('calc_'+key);
+  if(box) box.classList.toggle('open');
+}
+
+function calcOneRM(lift, key) {
+  const w = parseFloat(document.getElementById('calcw_'+key)?.value);
+  const r = parseFloat(document.getElementById('calcr_'+key)?.value);
+  if(!w || !r || r < 1) { 
+    document.getElementById('calcres_'+key).innerHTML = '<span style="color:#ff6060">Enter weight and reps</span>';
+    return;
+  }
+  const oneRM = Math.round((w * (1 + r/30)) / 2.5) * 2.5;
+  document.getElementById('calcres_'+key).innerHTML = 
+    `Est. 1RM: <strong>${oneRM} ${weightUnit()}</strong> &nbsp;·&nbsp; <button class="pr-calc-btn" style="padding:4px 10px;font-size:11px" onclick="applyCalc('${lift}','${key}',${oneRM})">Use this</button>`;
+}
+
+function applyCalc(lift, key, oneRM) {
+  const input = document.getElementById('pr_'+key);
+  if(input) { input.value = oneRM; onPRInput(lift, oneRM); }
+  document.getElementById('calc_'+key)?.classList.remove('open');
+  document.getElementById('calcres_'+key).innerHTML = '';
+  showToast('1RM set to ' + oneRM + ' ' + weightUnit());
 }
 
 function onPRInput(lift, val) {
@@ -1090,11 +1642,16 @@ function onPRInput(lift, val) {
   else delete setupData[lift];
   localStorage.setItem('ll_setup', JSON.stringify(setupData));
   // refresh prefilled weights across weeks
-  for(let w=1;w<=TOTAL_WEEKS;w++) for(let d=1;d<=DAYS;d++){
-    const e=getLog(w,d); if(!e||e.saved) continue;
-    const presc=getPrescription(w,e.lift);
-    e.sets=presc.sets; e.reps=presc.reps; e.load=presc.load;
-    setLog(w,d,e);
+  if(activePlan==='531' || true) {
+    autoPopulateAllWeeks();
+    if(document.getElementById('page-log').classList.contains('active')) renderDays();
+  } else {
+    for(let w=1;w<=TOTAL_WEEKS;w++) for(let d=1;d<=DAYS;d++){
+      const e=getLog(w,d); if(!e||e.saved) continue;
+      const presc=getPrescription(w,e.lift);
+      e.sets=presc.sets; e.reps=presc.reps; e.load=presc.load;
+      setLog(w,d,e);
+    }
   }
 }
 
@@ -1132,6 +1689,13 @@ function weightUnit() { return appUnits.weight || 'lbs'; }
 function goSetupScreen(id) {
   document.querySelectorAll('.setup-screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if(id==='setup-archived') renderArchivedList();
+  if(id==='setup-review') renderSetupReview();
+  if(id==='setup-main') {
+    const completedWeeks = Array.from({length:TOTAL_WEEKS},(_,i)=>weekDone(i+1)===DAYS?1:0).reduce((a,b)=>a+b,0);
+    const sub = document.getElementById('review-sub-menu');
+    if(sub) sub.textContent = completedWeeks===TOTAL_WEEKS ? 'Tap to view your cycle analysis' : completedWeeks+' of '+TOTAL_WEEKS+' weeks complete';
+  }
 }
 
 // Swipe back on setup subscreen
@@ -1148,6 +1712,709 @@ document.addEventListener('touchend', e => {
     if(active && active.id !== 'setup-main') goSetupScreen('setup-main');
   }
 }, {passive:true});
+
+
+// BLOCK REVIEW
+function switchToReview() {
+  renderReview();
+}
+
+function renderReview() {
+  // Check if cycle is complete (all 12 weeks done)
+  const completedWeeks = Array.from({length: TOTAL_WEEKS}, (_,i) => weekDone(i+1) === DAYS ? 1 : 0).reduce((a,b)=>a+b,0);
+  const isComplete = completedWeeks === TOTAL_WEEKS;
+
+  const heroEl = document.querySelector('.review-hero');
+  const innerEl = document.querySelector('#page-review .inner-pad');
+
+  if(!isComplete) {
+    if(heroEl) heroEl.style.display = 'none';
+    if(innerEl) innerEl.innerHTML = `
+      <div class="review-locked">
+        <div class="review-lock-card">
+          <div class="review-lock-top">
+            <div class="review-lock-icon">🔒</div>
+            <div>
+              <div class="review-lock-title">Block Review Locked</div>
+              <div class="review-lock-sub">Complete all 12 weeks to unlock your full cycle analysis.</div>
+            </div>
+          </div>
+          <div class="review-lock-progress-label">
+            <span>${completedWeeks} of 12 weeks complete</span>
+            <span style="color:var(--accent)">${Math.round((completedWeeks/TOTAL_WEEKS)*100)}%</span>
+          </div>
+          <div class="review-lock-track">
+            <div class="review-lock-fill" style="width:${(completedWeeks/TOTAL_WEEKS)*100}%"></div>
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  if(heroEl) heroEl.style.display = '';
+  if(innerEl) innerEl.innerHTML = `
+    <div class="review-stats-grid" id="review-stats"></div>
+    <div class="review-section-label">Lift Progression</div>
+    <div id="review-lifts"></div>
+    <div style="display:flex;gap:10px;margin-top:0.5rem">
+      <button class="save-setup-btn" style="flex:1" onclick="startNewCycle('same')">Start New Cycle</button>
+      <button class="save-setup-btn" style="flex:1;border-color:var(--border2);color:var(--muted)" onclick="startNewCycle('new')">Change Plan</button>
+    </div>`;
+
+  // Collect all data
+  let totalVol = 0, totalPRs = 0, weeksComplete = 0, daysSkipped = 0;
+  const liftData = {};
+  MAIN_LIFTS.forEach(l => { liftData[l] = { weeklyVol: Array(TOTAL_WEEKS).fill(0), bestLoad: 0, bestWeek: 0, startLoad: setupData[l] || 0 }; });
+
+  for(let w=1;w<=TOTAL_WEEKS;w++) {
+    let wComplete = true;
+    for(let d=1;d<=DAYS;d++) {
+      const e = getLog(w,d);
+      if(!e) { wComplete = false; continue; }
+      if(e.skipped) { daysSkipped++; continue; }
+      if(!e.saved) { wComplete = false; continue; }
+      if(!e.lift || !e.load) continue;
+      const vol = e.sets * e.reps * e.load;
+      totalVol += vol;
+      liftData[e.lift].weeklyVol[w-1] += vol;
+      if(e.load > liftData[e.lift].bestLoad) {
+        liftData[e.lift].bestLoad = e.load;
+        liftData[e.lift].bestWeek = w;
+      }
+    }
+    if(wComplete && weekDone(w) === DAYS) weeksComplete++;
+  }
+
+  // Count PRs
+  MAIN_LIFTS.forEach(l => {
+    if(liftData[l].bestLoad > liftData[l].startLoad) totalPRs++;
+  });
+
+  // Top stats
+  const statsEl = document.getElementById('review-stats'); if(!statsEl) return;
+  const volDisplay = totalVol >= 1000 ? `${(totalVol/1000).toFixed(1)}k` : totalVol.toLocaleString();
+  statsEl.innerHTML = `
+    <div class="review-stat-card">
+      <div class="review-stat-value">${weeksComplete}/12</div>
+      <div class="review-stat-label">Weeks Complete</div>
+    </div>
+    <div class="review-stat-card">
+      <div class="review-stat-value">${volDisplay}</div>
+      <div class="review-stat-label">Total ${weightUnit()} Lifted</div>
+    </div>
+    <div class="review-stat-card">
+      <div class="review-stat-value">${totalPRs}</div>
+      <div class="review-stat-label">PRs Hit</div>
+    </div>
+    <div class="review-stat-card">
+      <div class="review-stat-value">${daysSkipped}</div>
+      <div class="review-stat-label">Days Skipped</div>
+    </div>`;
+
+  // Per lift cards
+  const liftsEl = document.getElementById('review-lifts'); if(!liftsEl) return; liftsEl.innerHTML = MAIN_LIFTS.map(l => {
+    const d = liftData[l];
+    const pct = d.startLoad ? Math.round(((d.bestLoad - d.startLoad) / d.startLoad) * 100) : null;
+    const badge = pct !== null && pct > 0
+      ? `<span class="review-lift-badge up">+${pct}%</span>`
+      : `<span class="review-lift-badge none">No baseline</span>`;
+    const liftVol = d.weeklyVol.reduce((a,b)=>a+b,0);
+    const liftVolDisplay = liftVol >= 1000 ? `${(liftVol/1000).toFixed(1)}k` : liftVol.toString();
+    return `<div class="review-lift-card">
+      <div class="review-lift-header">
+        <div class="review-lift-name" style="color:${LIFT_COLORS[l]}">${l}</div>
+        ${badge}
+      </div>
+      <div class="review-lift-stats">
+        <div class="review-lift-stat">
+          <div class="review-lift-stat-val">${d.startLoad||'—'}</div>
+          <div class="review-lift-stat-lbl">Start ${weightUnit()}</div>
+        </div>
+        <div class="review-lift-stat">
+          <div class="review-lift-stat-val">${d.bestLoad||'—'}</div>
+          <div class="review-lift-stat-lbl">Best ${weightUnit()}</div>
+        </div>
+        <div class="review-lift-stat">
+          <div class="review-lift-stat-val">${liftVolDisplay}</div>
+          <div class="review-lift-stat-lbl">Total vol</div>
+        </div>
+      </div>
+      <div class="sparkline-wrap">
+        <canvas class="sparkline" id="spark_${l.replace(/ /g,'_')}"></canvas>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Draw sparklines after render
+  requestAnimationFrame(() => {
+    MAIN_LIFTS.forEach(l => {
+      const canvas = document.getElementById(`spark_${l.replace(/ /g,'_')}`);
+      if(!canvas) return;
+      const data = liftData[l].weeklyVol;
+      const max = Math.max(...data, 1);
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      canvas.height = 40 * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const w = canvas.offsetWidth, h = 40;
+      const step = w / (data.length - 1);
+      ctx.clearRect(0,0,w,h);
+      ctx.beginPath();
+      ctx.strokeStyle = LIFT_COLORS[l];
+      ctx.lineWidth = 2;
+      ctx.lineJoin = 'round';
+      data.forEach((v,i) => {
+        const x = i * step;
+        const y = h - (v / max) * (h - 6) - 3;
+        i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+      // fill
+      ctx.lineTo((data.length-1)*step, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fillStyle = LIFT_COLORS[l] + '22';
+      ctx.fill();
+    });
+  });
+
+
+}
+
+function startNewCycle(mode) {
+  // Archive current log
+  const archived = JSON.parse(localStorage.getItem('ll_archived') || '[]');
+  archived.push({
+    id: Date.now(),
+    date: new Date().toISOString(),
+    log: JSON.parse(JSON.stringify(logData)),
+    setup: JSON.parse(JSON.stringify(setupData)),
+    plan: '12-Week Periodization'
+  });
+  localStorage.setItem('ll_archived', JSON.stringify(archived));
+
+  // Clear log
+  logData = {};
+  localStorage.setItem('ll_log', JSON.stringify(logData));
+  currentWeek = 1;
+
+  if(mode === 'same') {
+    // Keep template — auto-populate new cycle with same lifts/accessories
+    // Recalculate weights based on updated 1RMs
+    if(Object.keys(template).length > 0) {
+      for(let w=1;w<=TOTAL_WEEKS;w++) {
+        for(let d=1;d<=DAYS;d++) {
+          const td = template[d]; if(!td) continue;
+          const presc = getPrescription(w, td.lift);
+          setLog(w, d, {
+            lift: td.lift, sets: presc.sets, reps: presc.reps, load: presc.load,
+            accs: td.accs.map(a=>({...a})), saved: false, prefilled: true
+          });
+        }
+      }
+      showToast('New cycle started with same plan!');
+    } else {
+      showToast('New cycle started!');
+    }
+    renderAll();
+    switchPage('log');
+  } else {
+    // Go to Training Plan selection
+    template = {};
+    localStorage.setItem('ll_template', JSON.stringify(template));
+    renderAll();
+    switchPage('setup');
+    goSetupScreen('setup-plan');
+    showToast('Select your new training plan');
+  }
+}
+
+
+// ARCHIVED CYCLES
+function renderArchivedList() {
+  const archived = JSON.parse(localStorage.getItem('ll_archived') || '[]');
+  const el = document.getElementById('archived-list');
+  const subEl = document.getElementById('archived-sub');
+  if(subEl) subEl.textContent = archived.length ? `${archived.length} cycle${archived.length>1?'s':''} completed` : 'No cycles yet';
+  if(!el) return;
+  if(!archived.length) {
+    el.innerHTML = '<div class="no-data">No completed cycles yet.</div>';
+    return;
+  }
+  el.innerHTML = [...archived].reverse().map((c,i) => {
+    const date = new Date(c.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const idx = archived.length - 1 - i;
+    const isCancelled = c.cancelled || false;
+    const cardStyle = isCancelled
+      ? 'background:rgba(255,130,80,0.06);border-color:rgba(255,130,80,0.3);'
+      : 'background:rgba(93,219,138,0.06);border-color:rgba(93,219,138,0.3);';
+    const statusBadge = isCancelled
+      ? '<span style="font-size:10px;color:#ff8250;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">CANCELLED</span>'
+      : '<span style="font-size:10px;color:#5ddb8a;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">COMPLETED</span>';
+    return `<div class="setup-menu-item" onclick="viewArchivedCycle(${idx})" style="${cardStyle}">
+      <div class="setup-menu-left">
+        <div class="setup-menu-title">Cycle ${idx+1} ${statusBadge}</div>
+        <div class="setup-menu-sub">${c.plan || '12-Week Periodization'} · ${date}</div>
+      </div>
+      <span class="setup-menu-chevron">›</span>
+    </div>`;
+  }).join('');
+}
+
+function viewArchivedCycle(idx) {
+  const archived = JSON.parse(localStorage.getItem('ll_archived') || '[]');
+  const cycle = archived[idx];
+  if(!cycle) return;
+
+  // Temporarily swap data to render review
+  const origLog = logData;
+  const origSetup = setupData;
+  logData = cycle.log;
+  setupData = cycle.setup || {};
+
+  const el = document.getElementById('archived-detail-content');
+  const date = new Date(cycle.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  // Calculate stats from archived data
+  let totalVol=0, totalPRs=0, weeksComplete=0, daysSkipped=0;
+  const liftData={};
+  MAIN_LIFTS.forEach(l=>{liftData[l]={weeklyVol:Array(TOTAL_WEEKS).fill(0),bestLoad:0,startLoad:setupData[l]||0};});
+  for(let w=1;w<=TOTAL_WEEKS;w++){
+    let wc=true;
+    for(let d=1;d<=DAYS;d++){
+      const e=getLog(w,d);
+      if(!e){wc=false;continue;}
+      if(e.skipped){daysSkipped++;continue;}
+      if(!e.saved){wc=false;continue;}
+      if(!e.lift||!e.load)continue;
+      let vol=e.sets*e.reps*e.load;
+      if(e.warmup1?.load) vol+=parseFloat(e.warmup1.sets||1)*parseFloat(e.warmup1.reps||5)*parseFloat(e.warmup1.load||0);
+      if(e.warmup2?.load) vol+=parseFloat(e.warmup2.sets||1)*parseFloat(e.warmup2.reps||3)*parseFloat(e.warmup2.load||0);
+      totalVol+=vol;
+      liftData[e.lift].weeklyVol[w-1]+=vol;
+      if(e.load>liftData[e.lift].bestLoad)liftData[e.lift].bestLoad=e.load;
+    }
+    if(wc&&weekDone(w)===DAYS)weeksComplete++;
+  }
+  MAIN_LIFTS.forEach(l=>{if(liftData[l].bestLoad>liftData[l].startLoad)totalPRs++;});
+
+  const volDisplay=totalVol>=1000?`${(totalVol/1000).toFixed(1)}k`:totalVol.toLocaleString();
+
+  el.innerHTML=`
+    <div class="review-hero" style="margin:-1.25rem -1.25rem 0">
+      <div class="review-hero-label">COMPLETED ${date.toUpperCase()}</div>
+      <div class="review-hero-title">Cycle ${idx+1}</div>
+      <div class="review-hero-sub">${cycle.plan||'12-Week Periodization'}</div>
+    </div>
+    <div style="padding-top:1.25rem">
+      <div class="review-stats-grid">
+        <div class="review-stat-card"><div class="review-stat-value">${weeksComplete}/12</div><div class="review-stat-label">Weeks Complete</div></div>
+        <div class="review-stat-card"><div class="review-stat-value">${volDisplay}</div><div class="review-stat-label">Total ${weightUnit()} Lifted</div></div>
+        <div class="review-stat-card"><div class="review-stat-value">${totalPRs}</div><div class="review-stat-label">PRs Hit</div></div>
+        <div class="review-stat-card"><div class="review-stat-value">${daysSkipped}</div><div class="review-stat-label">Days Skipped</div></div>
+      </div>
+      <div class="review-section-label">Lift Progression</div>
+      ${MAIN_LIFTS.map(l=>{
+        const d=liftData[l];
+        const pct=d.startLoad?Math.round(((d.bestLoad-d.startLoad)/d.startLoad)*100):null;
+        const badge=pct!==null&&pct>0?`<span class="review-lift-badge up">+${pct}%</span>`:`<span class="review-lift-badge none">No change</span>`;
+        return `<div class="review-lift-card">
+          <div class="review-lift-header">
+            <div class="review-lift-name" style="color:${LIFT_COLORS[l]}">${l}</div>
+            ${badge}
+          </div>
+          <div class="review-lift-stats">
+            <div class="review-lift-stat"><div class="review-lift-stat-val">${d.startLoad||'—'}</div><div class="review-lift-stat-lbl">Start</div></div>
+            <div class="review-lift-stat"><div class="review-lift-stat-val">${d.bestLoad||'—'}</div><div class="review-lift-stat-lbl">Best</div></div>
+            <div class="review-lift-stat"><div class="review-lift-stat-val">${d.weeklyVol.reduce((a,b)=>a+b,0)>=1000?(d.weeklyVol.reduce((a,b)=>a+b,0)/1000).toFixed(1)+'k':d.weeklyVol.reduce((a,b)=>a+b,0)}</div><div class="review-lift-stat-lbl">Total vol</div></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // Restore original data
+  logData = origLog;
+  setupData = origSetup;
+
+  goSetupScreen('setup-archived-detail');
+}
+
+
+// PROGRAM_531 legacy object removed — now using PROGRAMS registry
+
+// PLAN SELECTION
+function selectPlan(planId) {
+  if(planId === activePlan) return; // already active
+  showPlanConfirm(planId);
+}
+
+
+function showPRPrompt(missing) {
+  const overlay = document.createElement('div');
+  overlay.id = 'pr-prompt-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:1.5rem;';
+  const fields = MAIN_LIFTS.map(l => {
+    const isMissing = !setupData[l] || setupData[l] === 0;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:14px;font-weight:600;color:${LIFT_COLORS[l]}">${l}</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <input type="number" min="0" step="2.5" placeholder="0"
+          value="${setupData[l]||''}"
+          id="prprompt_${l.replace(/ /g,'_')}"
+          style="width:80px;padding:7px 10px;font-size:14px;text-align:center;border-radius:var(--rs);border:1px solid ${isMissing?'rgba(240,192,64,0.5)':'var(--border2)'};background:var(--surface2);color:var(--text);outline:none;"/>
+        <span style="font-size:12px;color:var(--muted)">${weightUnit()}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  overlay.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--accent);border-radius:var(--r);padding:1.5rem;width:100%;max-width:380px;">
+      <div style="font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:4px;">Enter Your 1 Rep Max</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:1.25rem;line-height:1.5">Your PRs are needed to calculate training weights. Enter your current 1RM for each lift.</div>
+      ${fields}
+      <button onclick="savePRPrompt()" style="width:100%;margin-top:1.25rem;padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--accent);background:var(--accent);color:#111;cursor:pointer;">Save & Start Training</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function savePRPrompt() {
+  MAIN_LIFTS.forEach(l => {
+    const val = document.getElementById('prprompt_'+l.replace(/ /g,'_'))?.value;
+    if(val && parseFloat(val) > 0) setupData[l] = parseFloat(val);
+  });
+  localStorage.setItem('ll_setup', JSON.stringify(setupData));
+  document.getElementById('pr-prompt-overlay')?.remove();
+  autoPopulateAllWeeks();
+  renderAll();
+  renderPRs();
+  const planName = activePlan==='531' ? '5/3/1 Wendler' : '12-Week Periodization';
+  showToast('Ready to train!');
+  switchPage('log');
+}
+
+function showPlanConfirm(planId) {
+  const planNames = {'12week':'12-Week Periodization','531':'5/3/1 Wendler'};
+  const overlay = document.createElement('div');
+  overlay.id = 'plan-confirm-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;padding:1.5rem;';
+  overlay.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--accent);border-radius:var(--r);padding:1.5rem;width:100%;max-width:360px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">Switch Training Plan?</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;">
+        Switching to <strong style="color:var(--text)">${planNames[planId]}</strong> will cancel your current cycle and clear all logged data. This cannot be undone.
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="confirmPlanSwitch('${planId}')" style="flex:1;padding:11px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--accent);background:var(--accent);color:#111;cursor:pointer;">Confirm</button>
+        <button onclick="document.getElementById('plan-confirm-overlay').remove()" style="flex:1;padding:11px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;">Cancel</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function confirmPlanSwitch(planId) {
+  document.getElementById('plan-confirm-overlay')?.remove();
+  // Archive current cycle if there's data
+  const hasData = Object.keys(logData).length > 0;
+  if(hasData) {
+    const archived = JSON.parse(localStorage.getItem('ll_archived') || '[]');
+    archived.push({
+      id: Date.now(),
+      date: new Date().toISOString(),
+      log: JSON.parse(JSON.stringify(logData)),
+      setup: JSON.parse(JSON.stringify(setupData)),
+      plan: getActivePlan().name,
+      cancelled: true
+    });
+    localStorage.setItem('ll_archived', JSON.stringify(archived));
+  }
+  activePlan = planId;
+  localStorage.setItem('ll_active_plan', planId);
+  logData = {};
+  localStorage.setItem('ll_log', JSON.stringify(logData));
+  template = {};
+  localStorage.setItem('ll_template', JSON.stringify(template));
+  currentWeek = 1;
+  updatePlanBadges();
+  updateLogPlanName();
+  goSetupScreen('setup-main');
+  // Check if PRs are set
+  const missingPRs = MAIN_LIFTS.filter(l => !setupData[l] || setupData[l] === 0);
+  if(missingPRs.length > 0) {
+    showPRPrompt(missingPRs);
+  } else {
+    autoPopulateAllWeeks();
+    renderAll();
+    syncPlanConstants();
+  showToast('Switched to ' + (PROGRAMS[planId]?.name || planId));
+    switchPage('log');
+  }
+}
+
+
+
+function autoPopulateAllWeeks() {
+  const plan = getActivePlan();
+  syncPlanConstants();
+  for(let w=1;w<=TOTAL_WEEKS;w++) {
+    for(let d=1;d<=DAYS;d++) {
+      const existing = getLog(w,d);
+      if(existing?.saved) continue;
+      const td = template[d];
+      const lift = td ? td.lift : (plan.dayLifts[d-1] || '');
+      if(!lift) continue;
+      const presc = getPrescription(w, lift);
+      const planAccs = (plan.accessories && plan.accessories[d]) || [];
+      const accs = td ? td.accs.map(a=>({...a})) : planAccs.map(a=>({...a}));
+      setLog(w,d,{lift, sets:presc.sets, reps:presc.reps, load:presc.load||0,
+        ...(presc.tm ? {tm:presc.tm} : {}),
+        accs, saved:false, prefilled:true});
+    }
+  }
+}
+
+
+function updateLogPlanName() {
+  const el = document.getElementById('log-plan-name');
+  if(el) el.textContent = getActivePlan().name;
+}
+
+function updatePlanBadges() {
+  const badge12 = document.getElementById('plan-12w-badge');
+  const badge531 = document.getElementById('plan-531-badge');
+  const card12 = document.getElementById('plan-12w-card');
+  const card531 = document.getElementById('plan-531-card');
+
+  // Show/hide active badges
+  if(badge12) badge12.style.display = activePlan==='12week' ? 'inline-block' : 'none';
+  if(badge531) badge531.style.display = activePlan==='531' ? 'inline-block' : 'none';
+
+  // Active card gets green tint, others neutral
+  if(card12) { card12.classList.toggle('active-plan', activePlan==='12week'); card12.style.opacity='1'; }
+  if(card531) { card531.classList.toggle('active-plan', activePlan==='531'); card531.style.opacity='1'; }
+
+  // Completion counts from archived cycles
+  const archived = JSON.parse(localStorage.getItem('ll_archived') || '[]');
+  const count12 = archived.filter(c => (c.plan==='12-Week Periodization'||!c.plan) && !c.cancelled).length;
+  const count531 = archived.filter(c => c.plan==='5/3/1 Wendler' && !c.cancelled).length;
+
+  const cnt12El = document.getElementById('plan-12w-count');
+  const cnt531El = document.getElementById('plan-531-count');
+  if(cnt12El) {
+    cnt12El.textContent = count12 > 0 ? count12 + '× completed' : '';
+    cnt12El.className = 'plan-completion-count' + (count12>0?' has-count':'');
+  }
+  if(cnt531El) {
+    cnt531El.textContent = count531 > 0 ? count531 + '× completed' : '';
+    cnt531El.className = 'plan-completion-count' + (count531>0?' has-count':'');
+  }
+
+  // Update menu sub label
+  const sub = document.getElementById('training-plan-sub');
+  if(sub) sub.textContent = (activePlan==='531'?'5/3/1 Wendler':'12-Week Periodization') + ' · Active';
+}
+
+
+
+function buildWorkingRows(d, saved, savedSets, savedReps, savedLoad, presc) {
+  const u = weightUnit();
+  const plan = getActivePlan();
+  const hint531 = presc && plan.useTM && presc.phase
+    ? presc.phase + ' · TM: ' + (presc.tm||'—') + ' ' + u
+    : 'Select a lift to auto-fill';
+  const hint12 = presc
+    ? Math.round(presc.pct*100) + '% 1RM · ' + getActivePlan().weeklyScheme[currentWeek-1]?.sets + '×' + getActivePlan().weeklyScheme[currentWeek-1]?.reps
+    : 'Select a lift to auto-fill';
+
+  if(plan.useTM) {
+    if(!presc) return '<div class="presc-hint">Select a lift to auto-fill</div>';
+    // Get weekPlan fresh if missing
+    const weekPlan531 = presc.weekPlan || getActivePlan().weeklyScheme[currentWeek-1];
+    const tm531 = presc.tm || 0;
+    const sets531 = weekPlan531.sets;
+    let rows = '';
+    sets531.forEach((s, i) => {
+      const savedSet = saved && saved['workset'+(i+1)];
+      const load = savedSet ? savedSet.load : (tm531 > 0 ? Math.round(tm531 * s.pct / 2.5)*2.5 : '');
+      const reps = savedSet ? savedSet.reps : s.r;
+      const sets = savedSet ? savedSet.sets : s.s;
+      const pctStr = Math.round(s.pct*100) + '%';
+      const amrapNote = s.amrap ? '<span style="grid-column:2/5;font-size:10px;color:var(--accent);letter-spacing:1px;text-align:center;margin-top:-4px;margin-bottom:4px">AMRAP on last set</span>' : '';
+      const amrapTitle = s.amrap ? ' title="AMRAP"' : '';
+      rows += '<div class="set-input-row">'
+        + '<span class="set-row-num">' + (i+1) + '</span>'
+        + '<input class="presc-input auto-filled" type="number" min="1" id="d'+d+'_ws'+(i+1)+'_sets" value="'+sets+'" oninput="resetSaveBtn('+d+')" />'
+        + '<input class="presc-input auto-filled" type="number" min="1" id="d'+d+'_ws'+(i+1)+'_reps" value="'+reps+'"' + amrapTitle + ' oninput="resetSaveBtn('+d+')" />'
+        + '<input class="presc-input auto-filled" type="number" min="0" step="2.5" id="d'+d+'_ws'+(i+1)+'_load" value="'+load+'" placeholder="'+u+'" oninput="resetSaveBtn('+d+')" />'
+        + amrapNote
+        + '</div>';
+    });
+    rows += '<div class="presc-hint">' + (presc.phase||weekPlan531.phase||'') + (tm531 ? ' · TM: '+tm531+' '+weightUnit() : '') + '</div>';
+    return rows;
+  } else {
+    // Standard plan: single working set row (row 3)
+    return '<div class="set-input-row">'
+      + '<span class="set-row-num">3</span>'
+      + '<input class="presc-input" type="number" min="1" id="d'+d+'_sets" value="'+savedSets+'" placeholder="—" oninput="resetSaveBtn('+d+')"/>'
+      + '<input class="presc-input" type="number" min="1" id="d'+d+'_reps" value="'+savedReps+'" placeholder="—" oninput="resetSaveBtn('+d+')"/>'
+      + '<input class="presc-input" type="number" min="0" step="2.5" id="d'+d+'_load" value="'+savedLoad+'" placeholder="'+u+'" oninput="resetSaveBtn('+d+')"/>'
+      + '</div>'
+      + '<div class="presc-hint">' + hint12 + '</div>';
+  }
+}
+
+function buildWarmupRows(d, saved, savedLoad, presc) {
+  const u = weightUnit();
+  const planCfg = getActivePlan();
+  if(planCfg.warmupRows === 0) {
+    return ''; // this plan has no warmup rows
+  } else {
+    const l1 = (saved && saved.warmup1 && saved.warmup1.load) ? saved.warmup1.load : (savedLoad ? Math.round(savedLoad*0.6/2.5)*2.5 : '');
+    const l2 = (saved && saved.warmup2 && saved.warmup2.load) ? saved.warmup2.load : (savedLoad ? Math.round(savedLoad*0.8/2.5)*2.5 : '');
+    const r1 = saved && saved.warmup1 ? saved.warmup1.reps : '10';
+    const r2 = saved && saved.warmup2 ? saved.warmup2.reps : '6';
+    const s1 = saved && saved.warmup1 ? saved.warmup1.sets : '1';
+    const s2 = saved && saved.warmup2 ? saved.warmup2.sets : '1';
+    return '<div class="set-input-row"><span class="set-row-num">1</span>'
+      + '<input class="presc-input" type="number" min="1" id="d'+d+'_w1_sets" value="'+s1+'" oninput="resetSaveBtn('+d+')"/>'
+      + '<input class="presc-input" type="number" min="1" id="d'+d+'_w1_reps" value="'+r1+'" oninput="resetSaveBtn('+d+')"/>'
+      + '<input class="presc-input" type="number" min="0" step="2.5" id="d'+d+'_w1_load" value="'+l1+'" placeholder="'+u+'" oninput="resetSaveBtn('+d+')"/></div>'
+      + '<div class="set-input-row"><span class="set-row-num">2</span>'
+      + '<input class="presc-input" type="number" min="1" id="d'+d+'_w2_sets" value="'+s2+'" oninput="resetSaveBtn('+d+')"/>'
+      + '<input class="presc-input" type="number" min="1" id="d'+d+'_w2_reps" value="'+r2+'" oninput="resetSaveBtn('+d+')"/>'
+      + '<input class="presc-input" type="number" min="0" step="2.5" id="d'+d+'_w2_load" value="'+l2+'" placeholder="'+u+'" oninput="resetSaveBtn('+d+')"/></div>';
+  }
+}
+
+
+// ONBOARDING
+function shouldShowOnboarding() {
+  return !activePlan || !localStorage.getItem('ll_active_plan') ||
+    MAIN_LIFTS.every(l => !setupData[l] || setupData[l] === 0);
+}
+
+function obNext() {
+  document.getElementById('ob-1').classList.remove('active');
+  document.getElementById('ob-2').classList.add('active');
+}
+
+function obFinish() {
+  const ob = document.getElementById('onboarding');
+  ob.classList.add('hide');
+  setTimeout(() => { ob.style.display = 'none'; }, 400);
+  // Go to training plan selection
+  switchPage('setup');
+  goSetupScreen('setup-plan');
+}
+
+function initOnboarding() {
+  if(shouldShowOnboarding()) {
+    document.getElementById('onboarding').style.display = 'flex';
+  } else {
+    document.getElementById('onboarding').style.display = 'none';
+  }
+}
+
+
+function renderSetupReview() {
+  const el = document.getElementById('setup-review-content');
+  if(!el) return;
+  const completedWeeks = Array.from({length: TOTAL_WEEKS}, (_,i) => weekDone(i+1) === DAYS ? 1 : 0).reduce((a,b)=>a+b,0);
+  const isComplete = completedWeeks === TOTAL_WEEKS;
+
+  if(!isComplete) {
+    el.innerHTML = `
+      <div class="page-header" style="padding:0 0 1.25rem"><h2>Block Review</h2></div>
+      <div class="review-lock-card">
+        <div class="review-lock-top">
+          <div class="review-lock-icon">🔒</div>
+          <div>
+            <div class="review-lock-title">Not Yet Complete</div>
+            <div class="review-lock-sub">Finish all ${TOTAL_WEEKS} weeks to unlock your full cycle analysis.</div>
+          </div>
+        </div>
+        <div class="review-lock-progress-label">
+          <span>${completedWeeks} of ${TOTAL_WEEKS} weeks complete</span>
+          <span style="color:var(--accent)">${Math.round((completedWeeks/TOTAL_WEEKS)*100)}%</span>
+        </div>
+        <div class="review-lock-track">
+          <div class="review-lock-fill" style="width:${(completedWeeks/TOTAL_WEEKS)*100}%"></div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Full review - reuse renderReview logic inline
+  el.innerHTML = '<div class="page-header" style="padding:0 0 1.25rem"><h2>Block Review</h2></div><div id="setup-review-inner"></div>';
+  const inner = document.getElementById('setup-review-inner');
+
+  // Collect stats
+  let totalVol=0, totalPRs=0, weeksComplete=0, daysSkipped=0;
+  const liftData={};
+  MAIN_LIFTS.forEach(l=>{liftData[l]={weeklyVol:Array(TOTAL_WEEKS).fill(0),bestLoad:0,startLoad:setupData[l]||0};});
+  for(let w=1;w<=TOTAL_WEEKS;w++){
+    let wc=true;
+    for(let d=1;d<=DAYS;d++){
+      const e=getLog(w,d);
+      if(!e){wc=false;continue;}
+      if(e.skipped){daysSkipped++;continue;}
+      if(!e.saved){wc=false;continue;}
+      if(!e.lift||!e.load)continue;
+      let vol=e.sets*e.reps*e.load;
+      if(e.warmup1?.load) vol+=parseFloat(e.warmup1.sets||1)*parseFloat(e.warmup1.reps||5)*parseFloat(e.warmup1.load||0);
+      if(e.warmup2?.load) vol+=parseFloat(e.warmup2.sets||1)*parseFloat(e.warmup2.reps||3)*parseFloat(e.warmup2.load||0);
+      totalVol+=vol; liftData[e.lift].weeklyVol[w-1]+=vol;
+      if(e.load>liftData[e.lift].bestLoad){liftData[e.lift].bestLoad=e.load;} 
+    }
+    if(wc&&weekDone(w)===DAYS)weeksComplete++;
+  }
+  MAIN_LIFTS.forEach(l=>{if(liftData[l].bestLoad>liftData[l].startLoad)totalPRs++;});
+  const volDisplay=totalVol>=1000?`${(totalVol/1000).toFixed(1)}k`:totalVol.toLocaleString();
+
+  inner.innerHTML = `
+    <div class="review-stats-grid">
+      <div class="review-stat-card"><div class="review-stat-value">${weeksComplete}/${TOTAL_WEEKS}</div><div class="review-stat-label">Weeks Complete</div></div>
+      <div class="review-stat-card"><div class="review-stat-value">${volDisplay}</div><div class="review-stat-label">Total ${weightUnit()}</div></div>
+      <div class="review-stat-card"><div class="review-stat-value">${totalPRs}</div><div class="review-stat-label">PRs Hit</div></div>
+      <div class="review-stat-card"><div class="review-stat-value">${daysSkipped}</div><div class="review-stat-label">Days Skipped</div></div>
+    </div>
+    <div class="review-section-label" style="margin-top:1rem">Lift Progression</div>
+    ${MAIN_LIFTS.map(l=>{
+      const d=liftData[l];
+      const pct=d.startLoad?Math.round(((d.bestLoad-d.startLoad)/d.startLoad)*100):null;
+      const badge=pct!==null&&pct>0?`<span class="review-lift-badge up">+${pct}%</span>`:`<span class="review-lift-badge none">No change</span>`;
+      const liftVol=d.weeklyVol.reduce((a,b)=>a+b,0);
+      return `<div class="review-lift-card">
+        <div class="review-lift-header">
+          <div class="review-lift-name" style="color:${LIFT_COLORS[l]}">${l}</div>${badge}
+        </div>
+        <div class="review-lift-stats">
+          <div class="review-lift-stat"><div class="review-lift-stat-val">${d.startLoad||'—'}</div><div class="review-lift-stat-lbl">Start</div></div>
+          <div class="review-lift-stat"><div class="review-lift-stat-val">${d.bestLoad||'—'}</div><div class="review-lift-stat-lbl">Best</div></div>
+          <div class="review-lift-stat"><div class="review-lift-stat-val">${liftVol>=1000?(liftVol/1000).toFixed(1)+'k':liftVol}</div><div class="review-lift-stat-lbl">Vol</div></div>
+        </div>
+      </div>`;
+    }).join('')}
+    <div style="display:flex;gap:10px;margin-top:1rem">
+      <button class="save-setup-btn" style="flex:1" onclick="startNewCycle('same')">Start New Cycle</button>
+      <button class="save-setup-btn" style="flex:1;border-color:var(--border2);color:var(--muted)" onclick="startNewCycle('new')">Change Plan</button>
+    </div>`;
+}
+
+// Auto-show Block Review when cycle completes
+function checkCycleComplete() {
+  const completedWeeks = Array.from({length: TOTAL_WEEKS}, (_,i) => weekDone(i+1) === DAYS ? 1 : 0).reduce((a,b)=>a+b,0);
+  if(completedWeeks === TOTAL_WEEKS) {
+    const alreadyShown = localStorage.getItem('ll_review_shown_' + (JSON.parse(localStorage.getItem('ll_archived')||'[]').length));
+    if(!alreadyShown) {
+      localStorage.setItem('ll_review_shown_' + (JSON.parse(localStorage.getItem('ll_archived')||'[]').length), '1');
+      setTimeout(() => {
+        switchPage('setup');
+        goSetupScreen('setup-review');
+        showToast('Cycle complete! 🎉');
+      }, 800);
+    }
+  }
+}
 
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
