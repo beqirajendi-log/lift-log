@@ -34,9 +34,9 @@ body { font-family: 'Barlow', sans-serif; background: var(--bg); color: var(--te
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
 .nav-tab {
-  flex: 1; padding: 10px 4px 8px; border: none; background: transparent;
+  flex: 1; padding: 14px 4px; border: none; background: transparent;
   color: var(--muted); cursor: pointer; transition: all 0.15s;
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  display: flex; flex-direction: column; align-items: center;
 }
 .nav-tab .nav-icon { width: 24px; height: 24px; transition: all 0.15s; }
 .nav-tab .nav-label {
@@ -849,59 +849,6 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   </div>
 </div>
 
-<div id="onboarding">
-
-  <!-- Screen 1: Welcome -->
-  <div class="ob-screen active" id="ob-1">
-    <div></div>
-    <div class="ob-content">
-      <div class="ob-eyebrow">Welcome</div>
-      <div class="ob-title">Train smarter.<br>Lift heavier.</div>
-      <div class="ob-sub" style="margin-top:12px">Your personal strength coach — built around your numbers, designed to get you stronger every week.</div>
-    </div>
-    <div>
-      <div class="ob-step-dots">
-        <div class="ob-dot active"></div>
-        <div class="ob-dot"></div>
-      </div>
-      <button class="ob-btn" onclick="obNext()">Get Started</button>
-    </div>
-  </div>
-
-  <!-- Screen 2: How it works -->
-  <div class="ob-screen" id="ob-2">
-    <div class="ob-content" style="padding-top:2rem">
-      <div class="ob-eyebrow">How it works</div>
-      <div class="ob-title">Your 1RM drives everything.</div>
-    </div>
-    <div class="ob-bullets">
-      <div class="ob-bullet">
-        <div class="ob-bullet-icon">🎯</div>
-        <div class="ob-bullet-text"><strong>Enter your 1 Rep Max once.</strong> Peakblock calculates every weight, every set, for every session across your entire cycle.</div>
-      </div>
-      <div class="ob-bullet">
-        <div class="ob-bullet-icon">📈</div>
-        <div class="ob-bullet-text"><strong>Follow a proven program.</strong> Choose from structured plans built around periodization — so you peak at the right time, not by accident.</div>
-      </div>
-      <div class="ob-bullet">
-        <div class="ob-bullet-icon">🏆</div>
-        <div class="ob-bullet-text"><strong>Hit PRs, not plateaus.</strong> As you log sessions, your PRs update automatically and your next cycle starts heavier.</div>
-      </div>
-      <div class="ob-bullet">
-        <div class="ob-bullet-icon">⚡</div>
-        <div class="ob-bullet-text"><strong>No guesswork in the gym.</strong> Open the app, see exactly what to lift, log it, done.</div>
-      </div>
-    </div>
-    <div class="ob-step-dots">
-      <div class="ob-dot"></div>
-      <div class="ob-dot active"></div>
-    </div>
-    <button class="ob-btn" onclick="obFinish()">Choose Your Program</button>
-    <button class="ob-btn ob-btn-ghost" style="margin-top:10px" onclick="obSkip()">Maybe later</button>
-  </div>
-
-</div>
-
 <div id="splash">
   <div class="splash-icon">
     <div class="splash-pb">PB</div>
@@ -915,9 +862,10 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 <div class="nav-tabs">
   <button class="nav-tab" id="nav-prs" onclick="switchPage('prs')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+      <polyline points="3 17 8 11 13 14 21 6"/>
+      <polyline points="17 6 21 6 21 10"/>
     </svg>
-    <span class="nav-label">PRs</span>
+
   </button>
   <button class="nav-tab active" id="nav-log" onclick="switchPage('log')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -929,14 +877,14 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
       <line x1="12" y1="14" x2="12" y2="14" stroke-width="2.5"/>
       <line x1="16" y1="14" x2="16" y2="14" stroke-width="2.5"/>
     </svg>
-    <span class="nav-label">Log</span>
+
   </button>
   <button class="nav-tab" id="nav-profile" onclick="switchPage('profile')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="8" r="4"/>
       <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
     </svg>
-    <span class="nav-label">Profile</span>
+
   </button>
 </div>
 
@@ -1700,7 +1648,6 @@ function getPrescription(week, lift) {
 function init(){
   syncPlanConstants();
   switchPage('log');
-  initOnboarding();
   for(let w=TOTAL_WEEKS;w>=1;w--){if(weekDone(w)>0){currentWeek=w;break;}}
   initTheme();
   setupAutoAdvance();
@@ -3139,44 +3086,10 @@ function buildWarmupRows(d, saved, savedLoad, presc) {
 
 
 // ONBOARDING
-function shouldShowOnboarding() {
-  return !localStorage.getItem('ll_active_plan') &&
-    MAIN_LIFTS.every(l => !setupData[l] || setupData[l] === 0);
-}
 
-function obNext() {
-  document.getElementById('ob-1').classList.remove('active');
-  document.getElementById('ob-2').classList.add('active');
-}
 
-function obFinish() {
-  const ob = document.getElementById('onboarding');
-  ob.classList.add('hide');
-  setTimeout(() => { ob.style.display = 'none'; }, 400);
-  switchPage('profile');
-  goProfileScreen('profile-plans');
-}
 
-function obSkip() {
-  const ob = document.getElementById('onboarding');
-  ob.classList.add('hide');
-  setTimeout(() => { ob.style.display = 'none'; }, 400);
-  // Mark onboarding as seen but no plan selected
-  localStorage.setItem('ll_onboarding_seen', '1');
-  switchPage('log');
-  renderAll();
-}
 
-function initOnboarding() {
-  const seen = localStorage.getItem('ll_onboarding_seen');
-  if(shouldShowOnboarding() && !seen) {
-    document.getElementById('onboarding').style.display = 'flex';
-    // Clear active plan so nothing is pre-selected
-    activePlan = '';
-  } else {
-    document.getElementById('onboarding').style.display = 'none';
-  }
-}
 
 
 function renderSetupReview() {
