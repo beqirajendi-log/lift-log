@@ -849,7 +849,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   </div>
 </div>
 
-<div id="onboarding" style="position:fixed;inset:0;z-index:998;background:var(--bg);display:flex;flex-direction:column;padding:2rem 1.5rem 2.5rem;justify-content:space-between;transition:opacity 0.4s ease">
+<div id="onboarding" style="position:fixed;inset:0;z-index:998;background:var(--bg);display:none;flex-direction:column;padding:2rem 1.5rem 2.5rem;justify-content:space-between;transition:opacity 0.4s ease">
   <div></div>
   <div>
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Welcome</div>
@@ -3429,9 +3429,11 @@ function viewProfileArchivedCycle(idx) {
 
 function obFinish() {
   const ob = document.getElementById('onboarding');
-  if(ob) { ob.style.opacity='0'; setTimeout(()=>{ ob.style.display='none'; }, 400); }
   localStorage.setItem('ll_onboarding_seen','1');
-  switchPage('log');
+  if(ob) {
+    ob.style.opacity='0';
+    setTimeout(()=>{ ob.style.display='none'; }, 400);
+  }
 }
 
 function initOnboarding() {
@@ -3439,7 +3441,15 @@ function initOnboarding() {
   const ob = document.getElementById('onboarding');
   if(!ob) return;
   if(!seen) {
-    ob.style.display = 'flex';
+    // Show after splash disappears (splash takes 2s + 0.6s fade)
+    setTimeout(() => {
+      ob.style.display = 'flex';
+      ob.style.opacity = '0';
+      requestAnimationFrame(() => {
+        ob.style.transition = 'opacity 0.4s ease';
+        ob.style.opacity = '1';
+      });
+    }, 2700);
   } else {
     ob.style.display = 'none';
   }
