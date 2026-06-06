@@ -1,4 +1,4 @@
-const CACHE = 'peakblock-v78';
+const CACHE = 'peakblock-v79';
 const ASSETS = [
   '/peakblock/',
   '/peakblock/index.html',
