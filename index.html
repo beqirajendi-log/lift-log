@@ -1659,7 +1659,6 @@ function getPrescription(week, lift) {
 
 function init(){
   syncPlanConstants();
-  switchPage('log');
   initOnboarding();
   for(let w=TOTAL_WEEKS;w>=1;w--){if(weekDone(w)>0){currentWeek=w;break;}}
   initTheme();
@@ -2021,6 +2020,10 @@ function saveDay(d){
   chk.textContent='✓';chk.style.background='var(--green2)';chk.style.borderColor='var(--green)';chk.style.color='var(--green)';
   document.getElementById(`sb-${d}`).textContent='✓ Saved';
   document.getElementById(`sb-${d}`).classList.add('saved');
+  // Track cycle start date (first saved day)
+  if(!localStorage.getItem('ll_cycle_start')) {
+    localStorage.setItem('ll_cycle_start', Date.now().toString());
+  }
   renderHeader();renderDots();updateProgressBar();checkCycleComplete();
   haptic(50);
 
@@ -3182,6 +3185,10 @@ function checkCycleComplete() {
   if(completedWeeks === TOTAL_WEEKS) {
     const alreadyShown = localStorage.getItem('ll_review_shown_' + (JSON.parse(localStorage.getItem('ll_archived')||'[]').length));
     if(!alreadyShown) {
+      // Store end date
+      if(!localStorage.getItem('ll_cycle_end')) {
+        localStorage.setItem('ll_cycle_end', Date.now().toString());
+      }
       localStorage.setItem('ll_review_shown_' + (JSON.parse(localStorage.getItem('ll_archived')||'[]').length), '1');
       setTimeout(() => {
         switchPage('profile');
@@ -3281,7 +3288,10 @@ function renderProfileReview() {
   const totalDaysLogged = hasPlan ? Object.values(logData).filter(d => d.saved).length : 0;
   const isComplete = hasPlan && completedWeeks === TOTAL_WEEKS;
 
-  let html = '<div class="page-header" style="padding:0 0 1.25rem"><h2>Training Reports</h2></div>';
+  const cycleStart = localStorage.getItem('ll_cycle_start');
+  const cycleEnd = localStorage.getItem('ll_cycle_end');
+  const dateRange = formatDateRange(cycleStart ? parseInt(cycleStart) : null, cycleEnd ? parseInt(cycleEnd) : null);
+  let html = `<div class="page-header" style="padding:0 0 1.25rem"><h2>Training Reports</h2>${dateRange ? '<p style="font-size:12px;color:var(--muted)">'+dateRange+'</p>' : ''}</div>`;
 
   // Current cycle
   html += '<div class="setup-section-label" style="margin-bottom:8px">Current Cycle</div>';
@@ -3316,17 +3326,21 @@ function renderProfileReview() {
   if(archived.length > 0) {
     html += '<div class="setup-section-label" style="margin-top:1.25rem;margin-bottom:8px">Past Cycles</div>';
     html += [...archived].reverse().map((c,i) => {
-      const date = new Date(c.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
       const idx = archived.length - 1 - i;
       const isCancelled = c.cancelled || false;
       const cardStyle = isCancelled ? 'background:rgba(255,130,80,0.06);border-color:rgba(255,130,80,0.3);' : 'background:rgba(93,219,138,0.06);border-color:rgba(93,219,138,0.3);';
       const badge = isCancelled
         ? '<span style="font-size:10px;color:#ff8250;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">CANCELLED</span>'
         : '<span style="font-size:10px;color:#5ddb8a;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">COMPLETED</span>';
+      const dateStr = c.startDate
+        ? formatDateRange(c.startDate, c.endDate)
+        : new Date(c.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      const duration = c.startDate && c.endDate ? ' · ' + getCycleDuration(c.startDate, c.endDate) : '';
       return `<div class="setup-menu-item" onclick="viewProfileArchivedCycle(${idx})" style="${cardStyle}margin-bottom:8px">
         <div class="setup-menu-left">
           <div class="setup-menu-title">Cycle ${idx+1} ${badge}</div>
-          <div class="setup-menu-sub">${c.plan||'12-Week Periodization'} · ${date}</div>
+          <div class="setup-menu-sub">${c.plan||'12-Week Periodization'}${duration}</div>
+          <div style="font-size:11px;color:var(--muted2);margin-top:2px">${dateStr}</div>
         </div><span class="setup-menu-chevron">›</span>
       </div>`;
     }).join('');
@@ -3440,6 +3454,23 @@ function initOnboarding() {
   } else {
     ob.style.display = 'none';
   }
+}
+
+
+function formatDateRange(startTs, endTs) {
+  if(!startTs) return '';
+  const opts = {month:'short', day:'numeric', year:'numeric'};
+  const start = new Date(startTs).toLocaleDateString('en-US', opts);
+  if(!endTs) return start + ' – present';
+  const end = new Date(endTs).toLocaleDateString('en-US', opts);
+  return start + ' – ' + end;
+}
+
+function getCycleDuration(startTs, endTs) {
+  if(!startTs || !endTs) return '';
+  const days = Math.round((endTs - startTs) / (1000*60*60*24));
+  const weeks = Math.round(days / 7);
+  return weeks + ' week' + (weeks !== 1 ? 's' : '');
 }
 
 function showToast(msg){
@@ -3560,7 +3591,11 @@ function setupAutoAdvance() {
 setTimeout(() => {
   const splash = document.getElementById('splash');
   splash.classList.add('hide');
-  setTimeout(() => splash.remove(), 600);
+  setTimeout(() => {
+    splash.remove();
+    // Show log only after splash is fully gone
+    // initOnboarding will overlay if first launch
+  }, 600);
 }, 2000);
 
 const s=document.createElement('script');
