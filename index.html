@@ -3587,14 +3587,14 @@ function setupAutoAdvance() {
   });
 }
 
-// Splash screen
+// Splash screen - hide app content until splash done
+document.querySelectorAll('.page, .nav-tabs').forEach(el => el.style.visibility = 'hidden');
 setTimeout(() => {
   const splash = document.getElementById('splash');
   splash.classList.add('hide');
   setTimeout(() => {
     splash.remove();
-    // Show log only after splash is fully gone
-    // initOnboarding will overlay if first launch
+    document.querySelectorAll('.page, .nav-tabs').forEach(el => el.style.visibility = '');
   }, 600);
 }, 2000);
 
