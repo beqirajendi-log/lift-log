@@ -529,7 +529,7 @@ canvas.sparkline { width: 100% !important; height: 40px !important; }
   font-size: 14px; color: var(--muted);
 }
 .session-acc-row:last-child { border-bottom: none; }
-.session-acc-sets { font-family: 'Barlow Condensed', sans-serif; color: var(--muted2); font-size: 13px; width: 40px; flex-shrink: 0; }
+.session-acc-sets { font-family: 'Barlow Condensed', sans-serif; color: var(--muted); font-size: 16px; font-weight: 600; width: 48px; flex-shrink: 0; }
 
 .complete-day-btn {
   width: 100%; margin-top: 16px; padding: 14px;
@@ -849,16 +849,11 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   </div>
 </div>
 
-<div id="onboarding" style="position:fixed;inset:0;z-index:998;background:var(--bg);display:none;flex-direction:column;padding:2rem 1.5rem 2.5rem;justify-content:space-between;transition:opacity 0.4s ease">
-  <div></div>
-  <div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Welcome</div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:700;line-height:1.1;color:var(--text);margin-bottom:12px">Train smarter.<br>Lift heavier.</div>
-    <div style="font-size:15px;color:var(--muted);line-height:1.6">Your personal strength coach — built around your numbers, designed to get you stronger every week.</div>
-  </div>
-  <div style="display:flex;flex-direction:column;gap:10px">
-    <button onclick="obFinish()" style="width:100%;padding:15px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--accent);background:var(--accent);color:#111;cursor:pointer">Get Started</button>
-  </div>
+<div id="onboarding" style="position:fixed;inset:0;z-index:998;background:var(--bg);display:none;flex-direction:column;padding:2rem 1.5rem 2.5rem;justify-content:center;transition:opacity 0.4s ease">
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Welcome</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:700;line-height:1.1;color:var(--text);margin-bottom:12px">Train smarter.<br>Lift heavier.</div>
+  <div style="font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:2rem">Your personal strength coach — built around your numbers, designed to get you stronger every week.</div>
+  <button onclick="obFinish()" style="width:100%;padding:15px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--accent);background:var(--accent);color:#111;cursor:pointer">Get Started</button>
 </div>
 
 <div id="splash">
@@ -872,10 +867,10 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
 
 <div class="nav-tabs">
-  <button class="nav-tab" id="nav-prs" onclick="switchPage('prs')">
+  <button class="nav-tab" id="nav-profile" onclick="switchPage('profile')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="3 17 8 11 13 14 21 6"/>
-      <polyline points="17 6 21 6 21 10"/>
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
     </svg>
 
   </button>
@@ -891,10 +886,10 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     </svg>
 
   </button>
-  <button class="nav-tab" id="nav-profile" onclick="switchPage('profile')">
+  <button class="nav-tab" id="nav-prs" onclick="switchPage('prs')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      <polyline points="3 17 8 11 13 14 21 6"/>
+      <polyline points="17 6 21 6 21 10"/>
     </svg>
 
   </button>
@@ -1623,7 +1618,7 @@ function syncPlanConstants(){ const p=getActivePlan(); TOTAL_WEEKS=p.weeks; DAYS
 let currentWeek=1;
 let logData=JSON.parse(localStorage.getItem('ll_log')||'{}');
 let appUnits=JSON.parse(localStorage.getItem('ll_units')||'{"weight":"lbs","distance":"mi"}');
-let activePlan=localStorage.getItem('ll_active_plan')||'12week';
+let activePlan=localStorage.getItem('ll_active_plan')||'';
 let setupData=JSON.parse(localStorage.getItem('ll_setup')||'{}');
 // template: {day: {lift, accs:[{ex,s,r}]}}
 let template=JSON.parse(localStorage.getItem('ll_template')||'{}');
@@ -2992,7 +2987,7 @@ function buildSessionView(d, lift, presc, saved, hasSave, isSkipped) {
         ${accs.filter(a => a.ex && a.ex !== '').map(a =>
           `<div class="session-acc-row">
             <span class="session-acc-sets">${a.s||''}×${a.r||''}</span>
-            <span style="color:var(--muted)">${a.ex}</span>
+            <span style="color:var(--muted);font-size:15px">${a.ex}</span>
           </div>`
         ).join('')}
       </div>`;
@@ -3435,6 +3430,11 @@ function obFinish() {
     ob.style.opacity='0';
     setTimeout(()=>{ ob.style.display='none'; }, 400);
   }
+  // If no plan was previously selected, make sure log shows empty state
+  if(!localStorage.getItem('ll_active_plan')) {
+    activePlan = '';
+    renderAll();
+  }
 }
 
 function initOnboarding() {
@@ -3518,14 +3518,9 @@ function updateProgressBar() {
 
 // PR CELEBRATION
 function checkPR(lift, load) {
-  // Compare actual load against best logged load for this lift
-  let bestLoad = 0;
-  for(let w=1;w<=TOTAL_WEEKS;w++) for(let d=1;d<=DAYS;d++) {
-    const e = getLog(w,d);
-    if(!e?.saved || e.lift !== lift) continue;
-    if(e.load > bestLoad) bestLoad = e.load;
-  }
-  return load > bestLoad ? load : null;
+  // Celebrate only if load exceeds current saved PR (setupData)
+  const currentPR = setupData[lift] || 0;
+  return load > currentPR ? load : null;
 }
 
 function showPRCelebration(lift, load) {
@@ -3588,13 +3583,13 @@ function setupAutoAdvance() {
 }
 
 // Splash screen - hide app content until splash done
-document.querySelectorAll('.page, .nav-tabs').forEach(el => el.style.visibility = 'hidden');
+document.querySelectorAll('.page, .nav-tabs').forEach(el => el.style.opacity = '0');
 setTimeout(() => {
   const splash = document.getElementById('splash');
   splash.classList.add('hide');
   setTimeout(() => {
     splash.remove();
-    document.querySelectorAll('.page, .nav-tabs').forEach(el => el.style.visibility = '');
+    document.querySelectorAll('.page, .nav-tabs').forEach(el => el.style.opacity = '');
   }, 600);
 }, 2000);
 
