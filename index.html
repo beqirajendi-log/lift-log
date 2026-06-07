@@ -3727,4 +3727,19 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>
+</html>    scroll.innerHTML = `<div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:65vh;padding:2.5rem 1.5rem;font-family:'Barlow Condensed',sans-serif">
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:20px">Peakblock</div>
+
+      <div style="font-size:52px;font-weight:900;letter-spacing:2px;color:var(--text);line-height:1;text-transform:uppercase;margin-bottom:6px">Train with</div>
+      <div style="font-size:52px;font-weight:900;letter-spacing:2px;color:var(--text);line-height:1;text-transform:uppercase;margin-bottom:0">purpose.</div>
+
+      <div style="width:48px;height:2px;background:var(--accent);border-radius:1px;margin:24px 0"></div>
+
+      <div style="font-size:15px;color:var(--muted);line-height:1.75;max-width:260px;margin-bottom:2.5rem;font-weight:400">Pick a program. We'll handle the rest.</div>
+
+      <button onclick="switchPage('profile');goProfileScreen('profile-plans')"
+        style="padding:14px 32px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:var(--rs);border:1px solid rgba(240,192,64,0.4);background:transparent;color:var(--accent);cursor:pointer">
+        Go to Training Library →
+      </button>
+    </div>`;
