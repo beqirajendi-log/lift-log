@@ -11,7 +11,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Strive" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body.splash-active .page,
@@ -77,8 +78,8 @@ body { font-family: 'Geist', sans-serif; background: var(--bg); color: var(--tex
 .nav-tab::before {
   content: '';
   position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 20px; height: 2px;
-  background: var(--accent); border-radius: 0 0 2px 2px;
+  width: 24px; height: 3px;
+  background: var(--accent); border-radius: 0 0 3px 3px;
   opacity: 0; transition: opacity 0.2s;
 }
 .nav-tab.active::before { opacity: 1; }
@@ -112,28 +113,75 @@ body { font-family: 'Geist', sans-serif; background: var(--bg); color: var(--tex
 .wsub { font-size: 13px; color: var(--muted); margin-top: 2px; }
 .week-dots { display: flex; gap: 4px; padding-bottom: 0.75rem; flex-wrap: nowrap; }
 .week-dot { flex: 1; height: 26px; border-radius: 5px; background: transparent; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; font-family: 'Geist', sans-serif; font-size: 11px; font-weight: 600; color: var(--muted2); }
-.week-dot.done { background: rgba(93,219,138,0.12); border-color: rgba(93,219,138,0.4); color: var(--green); }
+.week-dot.done { background: rgba(0,166,112,0.2); border-color: #00A670; color: #00A670; }
 .week-dot.active { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 700; }
 .week-dot.partial { background: var(--surface2); border-color: var(--border); color: var(--muted2); opacity: 0.6; }
 
 
-/* ACCORDION DAYS */
-.day-card { border-radius: var(--r); border: 1px solid transparent; margin-bottom: 8px; overflow: hidden; }
+/* PREMIUM GRADIENT DAY CARDS */
+.day-card {
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #005C3F 0%, #008089 50%, #61D2DA 100%);
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, opacity 0.2s;
+}
 .day-header {
-  padding: 14px 16px; border-bottom: none;
-  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 20px 16px;
   cursor: pointer; user-select: none;
 }
-.day-header-left { display: flex; align-items: center; gap: 10px; }
-.day-summary { font-size: 13px; color: var(--muted); margin-top: 3px; }
-.day-chevron {
-  font-size: 18px; color: var(--muted); transition: transform 0.2s;
-  flex-shrink: 0;
+.day-header-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
 }
-.day-card.open .day-chevron { transform: rotate(90deg); }
-.day-card.open .day-header { border-bottom: 1px solid rgba(255,255,255,0.07); }
-.day-body { display: none; padding: 14px 16px 16px; }
-.day-card.open .day-body { display: block; }
+.day-label {
+  font-family: 'Geist', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.65);
+}
+.day-status-badge {
+  font-family: 'Geist', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 20px;
+}
+.day-status-badge.completed {
+  background: rgba(93,219,138,0.2); border: 1px solid rgba(93,219,138,0.45); color: var(--green);
+}
+.day-status-badge.badge-skipped {
+  background: rgba(255,130,80,0.15); border: 1px solid rgba(255,130,80,0.3); color: #ff8250;
+}
+.day-status-badge.upcoming {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6);
+}
+.day-lift-name {
+  font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1.05;
+  color: #fff; margin-bottom: 4px; letter-spacing: 1px;
+}
+.day-summary {
+  font-size: 13px; color: rgba(255,255,255,0.6);
+}
+.day-header-bottom {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 14px;
+}
+.day-chevron {
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7); transition: transform 0.25s ease; flex-shrink: 0;
+}
+.day-card.open .day-chevron { transform: rotate(180deg); }
+.day-body {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.day-card.open .day-body { grid-template-rows: 1fr; }
+.day-header-bottom .skip-link { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.55); background: none; }
+.day-header-bottom .skip-link:hover { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }
+.day-body-inner {
+  min-height: 0; overflow: hidden;
+  padding: 16px 20px 20px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.25);
+}
+.day-check { display: none; }
 
 /* DAYS — full width vertical scroll */
 .days-scroll { padding: 1rem 1rem 2rem; }
@@ -142,35 +190,12 @@ body { font-family: 'Geist', sans-serif; background: var(--bg); color: var(--tex
 @keyframes slideL { from { transform:translateX(55px); opacity:0; } to { transform:translateX(0); opacity:1; } }
 @keyframes slideR { from { transform:translateX(-55px); opacity:0; } to { transform:translateX(0); opacity:1; } }
 
-.day-card { border-radius: var(--r); border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; background: var(--surface); border-left: 3px solid var(--border); transition: border-left-color 0.3s; }
-.day-card[data-lift-color] { border-left-color: var(--lift-color); }
-.day-card[data-day="1"],
-.day-card[data-day="2"],
-.day-card[data-day="3"],
-.day-card[data-day="4"] { background: var(--surface); border-color: rgba(0,128,137,0.2); }
-.day-card.has-data[data-day="1"],
-.day-card.has-data[data-day="2"],
-.day-card.has-data[data-day="3"],
-.day-card.has-data[data-day="4"] { border-color: var(--accent); }
-
-.day-header { padding: 16px 18px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.day-label { font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
-.day-card[data-day="1"] .day-label,
-.day-card[data-day="2"] .day-label,
-.day-card[data-day="3"] .day-label,
-.day-card[data-day="4"] .day-label { color: var(--accent); }
-.day-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: transparent; transition: all 0.2s; }
-.day-card.saved-day .day-check { background: rgba(93,219,138,0.08); border-color: rgba(93,219,138,0.3); color: var(--green); }
-
-.day-body { padding: 18px 18px 20px; overflow: hidden; }
-.day-body.animating { animation: expandDown 0.25s ease forwards; }
-@keyframes expandDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 .section-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; display: none; }
 
 .main-lift-select, .acc-select { width: 100%; padding: 8px 28px 8px 12px; font-size: 14px; font-family: 'Geist', sans-serif; font-weight: 500; border-radius: var(--rs); border: 1px solid var(--border2); background: var(--surface2); color: var(--text); outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7b85' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; margin-bottom: 10px; }
 .acc-select { font-size: 13px; padding: 7px 28px 7px 10px; margin-bottom: 0; }
 .main-lift-select:focus, .acc-select:focus { border-color: var(--accent); }
-.main-lift-select { font-family: 'Geist', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; padding: 12px 36px 12px 14px; border-radius: var(--r); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f0c040' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.main-lift-select { font-family: 'Geist', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; padding: 12px 36px 12px 14px; border-radius: var(--r); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300A670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
 .main-lift-select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,128,137,0.1); }
 .acc-select { font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; padding: 11px 36px 11px 14px; border-radius: var(--r); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7b85' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); margin-bottom: 8px; }
 .acc-select:focus { border-color: rgba(93,219,138,0.5); box-shadow: 0 0 0 2px rgba(93,219,138,0.08); }
@@ -642,17 +667,16 @@ canvas.sparkline { width: 100% !important; height: 40px !important; }
   width: 100%; margin-top: 20px; padding: 14px;
   font-family: 'Geist', sans-serif; font-size: 14px;
   font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  border-radius: var(--rs); border: 1px solid var(--border2);
-  background: var(--surface2); color: var(--muted); cursor: pointer;
+  border-radius: 12px; border: 1px solid rgba(0,128,137,0.5);
+  background: rgba(0,128,137,0.15); color: var(--accent-light); cursor: pointer;
   transition: all 0.15s;
 }
-.complete-day-btn:hover:not(.completed), .complete-day-btn:active:not(.completed) {
-  background: var(--accent); border-color: var(--accent); color: #111;
+.complete-day-btn:hover:not(.completed) {
+  background: var(--accent); border-color: var(--accent); color: #fff;
 }
 .complete-day-btn.completed {
   background: rgba(93,219,138,0.08); border-color: rgba(93,219,138,0.3); color: var(--green);
 }
-.complete-day-btn:hover:not(.completed) { opacity: 0.9; }
 
 
 .shimmer-card {
@@ -668,22 +692,55 @@ canvas.sparkline { width: 100% !important; height: 40px !important; }
 
 
 .day-card.day-saved {
-  background: rgba(93,219,138,0.06) !important;
-  border: 1px solid rgba(93,219,138,0.25) !important;
-  border-left: 3px solid rgba(93,219,138,0.6) !important;
+  background: #242424 !important;
+  border: 1px solid #484848 !important;
 }
+.day-card.day-saved .day-label { color: var(--muted); }
+.day-card.day-saved .day-lift-name { color: var(--text); }
+.day-card.day-saved .day-summary { color: var(--muted); }
+.day-card.day-saved .day-chevron { color: var(--muted2); }
+.day-card.day-saved .day-header-bottom .skip-link { border-color: var(--border); color: var(--muted2); }
+.day-card.day-saved .day-body-inner { border-top: 1px solid var(--border); background: transparent; }
 .day-card.day-skipped {
-  background: rgba(255,130,80,0.05) !important;
-  border: 1px solid rgba(255,130,80,0.2) !important;
-  border-left: 3px solid rgba(255,130,80,0.4) !important;
-  opacity: 0.75;
+  background: #1a1a1a !important;
+  border: 1px solid transparent !important;
+  opacity: 0.5 !important;
 }
-.day-card.day-saved .day-label { color: rgba(93,219,138,0.9); }
-.day-card.day-saved .day-summary { color: rgba(93,219,138,0.6); }
+.day-card.day-skipped .day-lift-name { color: var(--muted); }
+.day-card.day-skipped .day-summary { color: var(--muted2); }
+
+/* GLOBAL BUTTON STYLES */
+.btn-primary {
+  background: #008089; color: #fff; border: none; border-radius: 12px;
+  padding: 12px 20px; font-family: 'Geist', sans-serif; font-size: 14px;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-primary:hover { background: #009aa5; }
+.btn-secondary {
+  background: transparent; color: var(--accent); border: 1px solid #008089; border-radius: 12px;
+  padding: 12px 20px; font-family: 'Geist', sans-serif; font-size: 14px;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-secondary:hover { background: rgba(0,128,137,0.1); }
+.btn-destructive {
+  background: transparent; color: var(--muted); border: 1px solid #484848; border-radius: 12px;
+  padding: 12px 20px; font-family: 'Geist', sans-serif; font-size: 14px;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-destructive:hover { border-color: #ff6060; color: #ff6060; }
+
+/* GLOBAL INPUT STYLES */
+.presc-input, .setup-input-wrap input, .acc-input {
+  background: #242424; border: 1px solid #484848; border-radius: 12px;
+}
+.presc-input:focus, .setup-input-wrap input:focus { border-color: #008089; }
 
 /* CARD TAP MICRO-ANIMATIONS */
 .day-card, .pr-lift-card, .dash-card, .ob-plan-card, .review-lift-card, .review-stat-card {
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .day-card:active, .pr-lift-card:active, .ob-plan-card:active { transform: scale(0.98); }
@@ -2728,6 +2785,15 @@ function applyTemplateAllWeeks(){
 }
 
 function renderDays(anim){
+  // Show skeleton on the first render (initial page load) — skip if anim (week swipe)
+  if(!anim && !window._daysInitialRenderDone) {
+    window._daysInitialRenderDone = true;
+    const _s = document.getElementById('days-scroll');
+    if(_s) _s.innerHTML = Array(3).fill('<div class="shimmer-card"></div>').join('');
+    const _t0 = Date.now();
+    setTimeout(() => renderDays(anim), Math.max(0, 250 - (Date.now() - _t0)));
+    return;
+  }
   // Re-read from localStorage on every render so saved state is never stale
   logData = JSON.parse(localStorage.getItem('ll_log') || '{}');
   const plan=getActivePlan();
@@ -2811,29 +2877,35 @@ function renderDays(anim){
     const displayLoad = savedLoad || '';
     const displaySets = savedSets || '';
     const displayReps = savedReps || '';
-    const summaryText = isSkipped ? 'Skipped' : (displayLift
-      ? `${displayLift}${displaySets && displayReps && displayLoad ? ` · ${displaySets}×${displayReps} @ ${displayLoad} ${weightUnit()}` : ''}`
-      : 'Tap to log');
+    const liftDisplay = displayLift || (plan.isGZCLP ? 'Mixed Day' : '— Select —');
+    const prescSummary = isSkipped ? 'Skipped'
+      : (displaySets && displayReps && displayLoad ? `${displaySets} sets · ${displayReps} reps · ${displayLoad} ${weightUnit()}`
+      : (displayLift ? '' : 'Tap to expand'));
+    const badgeClass = hasSave ? 'completed' : (isSkipped ? 'badge-skipped' : 'upcoming');
+    const badgeText = hasSave ? 'COMPLETED ✓' : (isSkipped ? 'SKIPPED' : 'UPCOMING');
+    const dayTypeLabel = plan.isGZCLP ? ` · ${gzclpDayType(currentWeek,d)}-Day` : '';
 
     const card=document.createElement('div');
     card.className='day-card'+(hasSave?' has-data':'')+(isSkipped?' skipped':'')+(isOpen?' open':'');
     card.setAttribute('data-day',d);card.id=`dc-${d}`;
     card.innerHTML=`
       <div class="day-header" onclick="haptic(10);toggleDay(${d})">
-        <div class="day-header-left">
-          <div>
-            <div class="day-label">Day ${d}${plan.isGZCLP ? ` · ${gzclpDayType(currentWeek,d)}-Day` : ''}</div>
-            <div class="day-summary">${summaryText}</div>
-          </div>
+        <div class="day-header-top">
+          <span class="day-label">Day ${d}${dayTypeLabel}</span>
+          <span class="day-status-badge ${badgeClass}" id="dc-badge-${d}">${badgeText}</span>
         </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <button class="skip-link${isSkipped?' skip-active':''}" onclick="event.stopPropagation();skipDay(${d})">${isSkipped?'Unskip':'Skip'}</button>
-          <div class="day-check${isSkipped?' skipped-check':''}">${hasSave?'✓':(isSkipped?'–':'')}</div>
-          <span class="day-chevron">›</span>
+        <div class="day-lift-name">${liftDisplay}</div>
+        ${prescSummary ? `<div class="day-summary">${prescSummary}</div>` : ''}
+        <div class="day-header-bottom">
+          <button class="skip-link${isSkipped?' skip-active':''}" onclick="event.stopPropagation();haptic(10);skipDay(${d})">${isSkipped?'Unskip':'Skip'}</button>
+          <span class="day-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </div>
       </div>
       <div class="day-body">
-        ${buildSessionView(d, selLift, presc, saved, hasSave, isSkipped)}
+        <div class="day-body-inner">
+          <div class="day-check" style="display:none"></div>
+          ${buildSessionView(d, selLift, presc, saved, hasSave, isSkipped)}
+        </div>
       </div>`;
     if(hasSave) { card.classList.add('saved-day'); card.classList.add('day-saved'); }
     if(isSkipped) { card.classList.add('skipped'); card.classList.add('day-skipped'); }
@@ -2992,10 +3064,10 @@ function saveDay(d){
   const card=document.getElementById(`dc-${d}`);
   card.classList.add('saved-day');
   card.classList.add('day-saved');
-  const chk=card.querySelector('.day-check');
-  chk.textContent='✓';chk.style.background='var(--green2)';chk.style.borderColor='var(--green)';chk.style.color='var(--green)';
-  document.getElementById(`sb-${d}`).textContent='✓ Saved';
-  document.getElementById(`sb-${d}`).classList.add('saved');
+  const badge=document.getElementById(`dc-badge-${d}`);
+  if(badge){badge.textContent='COMPLETED ✓';badge.className='day-status-badge completed';}
+  document.getElementById(`sb-${d}`).textContent='✓ Day Complete';
+  document.getElementById(`sb-${d}`).classList.add('completed');
   // Track cycle start date (first saved day)
   if(!localStorage.getItem('ll_cycle_start')) {
     localStorage.setItem('ll_cycle_start', Date.now().toString());
@@ -4814,28 +4886,15 @@ function migratePRHistory() {
 
 function autoOpenNextDay() {
   if(!activePlan || !PROGRAMS[activePlan]) return;
-  // Find first unsaved, non-skipped day in current week
   for(let d=1;d<=DAYS;d++) {
     const e = getLog(currentWeek, d);
     if(!e?.saved && !e?.skipped) {
-      // Close all, open this one
-      for(let i=1;i<=DAYS;i++) {
-        const body = document.getElementById(`dc-${i}`)?.querySelector('.day-body');
-        const chev = document.getElementById(`dc-${i}`)?.querySelector('.day-chevron');
-        if(body) body.style.display = 'none';
-        if(chev) chev.style.transform = '';
-      }
+      for(let i=1;i<=DAYS;i++) document.getElementById(`dc-${i}`)?.classList.remove('open');
       const card = document.getElementById(`dc-${d}`);
-      const body = card?.querySelector('.day-body');
-      const chev = card?.querySelector('.day-chevron');
-      if(body) {
-        body.style.display = 'block';
-        body.classList.add('animating');
-        setTimeout(() => body.classList.remove('animating'), 250);
+      if(card) {
+        card.classList.add('open');
+        setTimeout(() => card.scrollIntoView({behavior:'smooth', block:'start'}), 150);
       }
-      if(chev) chev.style.transform = 'rotate(90deg)';
-      // Scroll to it smoothly
-      setTimeout(() => card?.scrollIntoView({behavior:'smooth', block:'start'}), 150);
       break;
     }
   }
@@ -4866,8 +4925,8 @@ function saveSet1RM(d, lift) {
   const saved = getLog(currentWeek, d);
   const dayCard = document.getElementById('dc-' + d);
   if(dayCard) {
-    const dayBody = dayCard.querySelector('.day-body');
-    if(dayBody) dayBody.innerHTML = buildSessionView(d, lift, presc, saved, saved && saved.saved, saved && saved.skipped || false);
+    const bodyInner = dayCard.querySelector('.day-body-inner');
+    if(bodyInner) bodyInner.innerHTML = `<div class="day-check" style="display:none"></div>` + buildSessionView(d, lift, presc, saved, saved && saved.saved, saved && saved.skipped || false);
   }
   // Remove missing-PRs banner if all lifts now have 1RMs
   const plan = getActivePlan();
@@ -4959,8 +5018,8 @@ function save1RMModal(d, lift) {
   const saved = getLog(currentWeek, d);
   const dayCard = document.getElementById('dc-' + d);
   if(dayCard) {
-    const dayBody = dayCard.querySelector('.day-body');
-    if(dayBody) dayBody.innerHTML = buildSessionView(d, lift, presc, saved, saved && saved.saved, saved && (saved.skipped || false));
+    const bodyInner = dayCard.querySelector('.day-body-inner');
+    if(bodyInner) bodyInner.innerHTML = `<div class="day-check" style="display:none"></div>` + buildSessionView(d, lift, presc, saved, saved && saved.saved, saved && (saved.skipped || false));
   }
   const plan = getActivePlan();
   const promptLifts = plan.isGZCLP ? plan.promptLifts : MAIN_LIFTS;
