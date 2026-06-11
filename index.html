@@ -922,6 +922,44 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 }
 .ob-plan-card:hover .ob-plan-arrow,
 .ob-plan-card:active .ob-plan-arrow { color: var(--accent); }
+
+/* Plan card expand detail */
+.ob-plan-card { flex-direction: column; align-items: stretch; gap: 0; }
+.ob-plan-card-top { display: flex; align-items: center; gap: 14px; }
+.ob-plan-arrow { transition: color 0.18s, transform 0.3s; }
+.ob-plan-card.plan-expanded .ob-plan-arrow { transform: rotate(90deg); }
+
+.plan-card-expand, .ob-plan-expand {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+.plan-card-expand.open, .ob-plan-expand.open { max-height: 520px; }
+
+.plan-card-expand-inner, .ob-plan-expand-inner {
+  margin-top: 12px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.plan-detail-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted2); margin-bottom: 5px;
+}
+.plan-detail-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.plan-confirm-btn {
+  display: block; width: 100%; margin-top: 16px; padding: 12px;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 15px;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  border-radius: var(--rs); border: 1px solid var(--accent);
+  background: var(--accent); color: #111; cursor: pointer;
+  transition: opacity 0.15s; box-sizing: border-box;
+}
+.plan-confirm-btn:active { opacity: 0.8; }
+.plan-collapse-link {
+  display: block; text-align: center; margin-top: 10px;
+  font-size: 12px; color: var(--muted2); cursor: pointer;
+  padding: 6px; transition: color 0.15s;
+}
+.plan-collapse-link:hover { color: var(--muted); }
 </style>
 </head>
 <body class="splash-active">
@@ -943,26 +981,62 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     <div class="ob-subtitle">Pick a program to get started. We'll handle the rest.</div>
   </div>
   <div class="ob-plans">
-    <div class="ob-plan-card" onclick="obFinish(); selectPlan('12week')">
-      <div class="ob-plan-content">
-        <div class="ob-plan-name">12-Week Periodization</div>
-        <div class="ob-plan-desc">Build strength through structured phases — accumulation, intensification, and peak.</div>
+    <div class="ob-plan-card" onclick="togglePlanDetail(this,'12week')">
+      <div class="ob-plan-card-top">
+        <div class="ob-plan-content">
+          <div class="ob-plan-name">12-Week Periodization</div>
+          <div class="ob-plan-desc">Build strength through structured phases — accumulation, intensification, and peak.</div>
+        </div>
+        <div class="ob-plan-arrow">›</div>
       </div>
-      <div class="ob-plan-arrow">›</div>
+      <div class="ob-plan-expand" onclick="event.stopPropagation()">
+        <div class="ob-plan-expand-inner">
+          <div class="plan-detail-label">About</div>
+          <div class="plan-detail-text">A structured 12-week strength cycle built around three phases — Accumulation, Intensification, and Peak Strength. Each phase builds on the last, progressively increasing intensity while managing fatigue through planned deload weeks.</div>
+          <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+          <div class="plan-detail-text">Best for intermediate lifters who have a solid foundation in the main lifts and want a structured, periodized approach to peak strength over 3 months.</div>
+          <button class="plan-confirm-btn" onclick="obFinish(); selectPlan('12week')">Start this program →</button>
+          <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+        </div>
+      </div>
     </div>
-    <div class="ob-plan-card" onclick="obFinish(); selectPlan('531')">
-      <div class="ob-plan-content">
-        <div class="ob-plan-name">5/3/1 Wendler</div>
-        <div class="ob-plan-desc">The proven long-term strength program. Slow, steady, unstoppable progress.</div>
+    <div class="ob-plan-card" onclick="togglePlanDetail(this,'531')">
+      <div class="ob-plan-card-top">
+        <div class="ob-plan-content">
+          <div class="ob-plan-name">5/3/1 Wendler</div>
+          <div class="ob-plan-desc">The proven long-term strength program. Slow, steady, unstoppable progress.</div>
+        </div>
+        <div class="ob-plan-arrow">›</div>
       </div>
-      <div class="ob-plan-arrow">›</div>
+      <div class="ob-plan-expand" onclick="event.stopPropagation()">
+        <div class="ob-plan-expand-inner">
+          <div class="plan-detail-label">About</div>
+          <div class="plan-detail-text">Jim Wendler's proven long-term strength program built around four main lifts. Each 4-week cycle uses submaximal loading with one all-out AMRAP top set per session, allowing consistent progress over months and years.</div>
+          <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+          <div class="plan-detail-text">Ideal for intermediate to advanced lifters who want a sustainable, no-frills program they can run indefinitely without burning out.</div>
+          <button class="plan-confirm-btn" onclick="obFinish(); selectPlan('531')">Start this program →</button>
+          <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+        </div>
+      </div>
     </div>
-    <div class="ob-plan-card" onclick="obFinish(); selectPlan('gzclp')">
-      <div class="ob-plan-content">
-        <div class="ob-plan-name">GZCLP</div>
-        <div class="ob-plan-desc">Linear progression for beginners. Add weight every session, master the big movements.</div>
+    <div class="ob-plan-card" onclick="togglePlanDetail(this,'gzclp')">
+      <div class="ob-plan-card-top">
+        <div class="ob-plan-content">
+          <div class="ob-plan-name">GZCLP</div>
+          <div class="ob-plan-desc">Linear progression for beginners. Add weight every session, master the big movements.</div>
+        </div>
+        <div class="ob-plan-arrow">›</div>
       </div>
-      <div class="ob-plan-arrow">›</div>
+      <div class="ob-plan-expand" onclick="event.stopPropagation()">
+        <div class="ob-plan-expand-inner">
+          <div class="plan-detail-label">About</div>
+          <div class="plan-detail-text">A beginner linear progression program by Cody Lefever. Three days per week, three tiers of lifts — T1 for heavy strength work, T2 for volume, and T3 for accessories. Add weight every session until you can't, then the program automatically adjusts.</div>
+          <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+          <div class="plan-detail-text">Perfect for beginners or those returning after a long break who want to build a strength base as fast as possible with a simple, self-correcting structure.</div>
+          <button class="plan-confirm-btn" onclick="obFinish(); selectPlan('gzclp')">Start this program →</button>
+          <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1158,7 +1232,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
       <button class="setup-back-btn" onclick="goProfileScreen('profile-main')">‹ Back</button>
       <div class="page-header" style="padding:0 0 1.25rem"><h2>Available Training Plans</h2><p>Select your program</p></div>
 
-      <div class="plan-card" id="plan-12w-card" onclick="selectPlan('12week')" style="cursor:pointer">
+      <div class="plan-card" id="plan-12w-card" onclick="togglePlanDetail(this,'12week')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">12-Week Periodization</div>
@@ -1175,9 +1249,19 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#5ddb8a">●</span> Weeks 9–12: Peak Strength (5×3–1)</div>
           <div class="plan-phase"><span style="color:#60a0ff">●</span> Weeks 4, 8, 12: Deload</div>
         </div>
+        <div class="plan-card-expand" onclick="event.stopPropagation()">
+          <div class="plan-card-expand-inner">
+            <div class="plan-detail-label">About</div>
+            <div class="plan-detail-text">A structured 12-week strength cycle built around three phases — Accumulation, Intensification, and Peak Strength. Each phase builds on the last, progressively increasing intensity while managing fatigue through planned deload weeks.</div>
+            <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+            <div class="plan-detail-text">Best for intermediate lifters who have a solid foundation in the main lifts and want a structured, periodized approach to peak strength over 3 months.</div>
+            <button class="plan-confirm-btn" onclick="selectPlan('12week')">Start this program →</button>
+            <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+          </div>
+        </div>
       </div>
 
-      <div class="plan-card" id="plan-531-card" onclick="selectPlan('531')" style="cursor:pointer">
+      <div class="plan-card" id="plan-531-card" onclick="togglePlanDetail(this,'531')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">5/3/1 Wendler</div>
@@ -1194,9 +1278,19 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#5ddb8a">●</span> Weeks 9–12: Cycle 3 (TM +5/10lbs)</div>
           <div class="plan-phase"><span style="color:#60a0ff">●</span> Weeks 4, 8, 12: Deload</div>
         </div>
+        <div class="plan-card-expand" onclick="event.stopPropagation()">
+          <div class="plan-card-expand-inner">
+            <div class="plan-detail-label">About</div>
+            <div class="plan-detail-text">Jim Wendler's proven long-term strength program built around four main lifts. Each 4-week cycle uses submaximal loading with one all-out AMRAP top set per session, allowing consistent progress over months and years.</div>
+            <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+            <div class="plan-detail-text">Ideal for intermediate to advanced lifters who want a sustainable, no-frills program they can run indefinitely without burning out.</div>
+            <button class="plan-confirm-btn" onclick="selectPlan('531')">Start this program →</button>
+            <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+          </div>
+        </div>
       </div>
 
-      <div class="plan-card" id="plan-gzclp-card" onclick="selectPlan('gzclp')" style="cursor:pointer">
+      <div class="plan-card" id="plan-gzclp-card" onclick="togglePlanDetail(this,'gzclp')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">GZCLP</div>
@@ -1212,6 +1306,16 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#50dc78">●</span> T1: 5×3 heavy compound (+5 lbs/session)</div>
           <div class="plan-phase"><span style="color:#50dc78">●</span> T2: 3×10 accessory (+5 lbs/session)</div>
           <div class="plan-phase"><span style="color:#50dc78">●</span> T3: 2×15+ AMRAP</div>
+        </div>
+        <div class="plan-card-expand" onclick="event.stopPropagation()">
+          <div class="plan-card-expand-inner">
+            <div class="plan-detail-label">About</div>
+            <div class="plan-detail-text">A beginner linear progression program by Cody Lefever. Three days per week, three tiers of lifts — T1 for heavy strength work, T2 for volume, and T3 for accessories. Add weight every session until you can't, then the program automatically adjusts.</div>
+            <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+            <div class="plan-detail-text">Perfect for beginners or those returning after a long break who want to build a strength base as fast as possible with a simple, self-correcting structure.</div>
+            <button class="plan-confirm-btn" onclick="selectPlan('gzclp')">Start this program →</button>
+            <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1567,7 +1671,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     <div id="profile-plans" class="setup-screen">
       <button class="setup-back-btn" onclick="goProfileScreen('profile-main')">‹ Back</button>
       <div class="page-header" style="padding:0 0 1.25rem"><h2>Available Training Plans</h2><p>Select your program</p></div>
-      <div class="plan-card" id="p-plan-12w-card" onclick="selectPlan('12week')" style="cursor:pointer">
+      <div class="plan-card" id="p-plan-12w-card" onclick="togglePlanDetail(this,'12week')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">12-Week Periodization</div>
@@ -1584,8 +1688,18 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#5ddb8a">●</span> Weeks 9–12: Peak Strength (5×3–1)</div>
           <div class="plan-phase"><span style="color:#60a0ff">●</span> Weeks 4, 8, 12: Deload</div>
         </div>
+        <div class="plan-card-expand" onclick="event.stopPropagation()">
+          <div class="plan-card-expand-inner">
+            <div class="plan-detail-label">About</div>
+            <div class="plan-detail-text">A structured 12-week strength cycle built around three phases — Accumulation, Intensification, and Peak Strength. Each phase builds on the last, progressively increasing intensity while managing fatigue through planned deload weeks.</div>
+            <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+            <div class="plan-detail-text">Best for intermediate lifters who have a solid foundation in the main lifts and want a structured, periodized approach to peak strength over 3 months.</div>
+            <button class="plan-confirm-btn" onclick="selectPlan('12week')">Start this program →</button>
+            <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+          </div>
+        </div>
       </div>
-      <div class="plan-card" id="p-plan-531-card" onclick="selectPlan('531')" style="cursor:pointer">
+      <div class="plan-card" id="p-plan-531-card" onclick="togglePlanDetail(this,'531')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">5/3/1 Wendler</div>
@@ -1602,8 +1716,18 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#5ddb8a">●</span> Weeks 9–12: Cycle 3 (TM +5/10)</div>
           <div class="plan-phase"><span style="color:#60a0ff">●</span> Weeks 4, 8, 12: Deload</div>
         </div>
+        <div class="plan-card-expand" onclick="event.stopPropagation()">
+          <div class="plan-card-expand-inner">
+            <div class="plan-detail-label">About</div>
+            <div class="plan-detail-text">Jim Wendler's proven long-term strength program built around four main lifts. Each 4-week cycle uses submaximal loading with one all-out AMRAP top set per session, allowing consistent progress over months and years.</div>
+            <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+            <div class="plan-detail-text">Ideal for intermediate to advanced lifters who want a sustainable, no-frills program they can run indefinitely without burning out.</div>
+            <button class="plan-confirm-btn" onclick="selectPlan('531')">Start this program →</button>
+            <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+          </div>
+        </div>
       </div>
-      <div class="plan-card" id="p-plan-gzclp-card" onclick="selectPlan('gzclp')" style="cursor:pointer">
+      <div class="plan-card" id="p-plan-gzclp-card" onclick="togglePlanDetail(this,'gzclp')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">GZCLP</div>
@@ -1619,6 +1743,16 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#50dc78">●</span> T1: 5×3 heavy compound (+5 lbs/session)</div>
           <div class="plan-phase"><span style="color:#50dc78">●</span> T2: 3×10 accessory (+5 lbs/session)</div>
           <div class="plan-phase"><span style="color:#50dc78">●</span> T3: 2×15+ AMRAP</div>
+        </div>
+        <div class="plan-card-expand" onclick="event.stopPropagation()">
+          <div class="plan-card-expand-inner">
+            <div class="plan-detail-label">About</div>
+            <div class="plan-detail-text">A beginner linear progression program by Cody Lefever. Three days per week, three tiers of lifts — T1 for heavy strength work, T2 for volume, and T3 for accessories. Add weight every session until you can't, then the program automatically adjusts.</div>
+            <div class="plan-detail-label" style="margin-top:12px">Who it's for</div>
+            <div class="plan-detail-text">Perfect for beginners or those returning after a long break who want to build a strength base as fast as possible with a simple, self-correcting structure.</div>
+            <button class="plan-confirm-btn" onclick="selectPlan('gzclp')">Start this program →</button>
+            <div class="plan-collapse-link" onclick="collapsePlanCards()">Not now</div>
+          </div>
         </div>
       </div>
     </div>
@@ -3084,7 +3218,25 @@ function viewArchivedCycle(idx) {
 // PROGRAM_531 legacy object removed — now using PROGRAMS registry
 
 // PLAN SELECTION
+function collapsePlanCards() {
+  document.querySelectorAll('.plan-card-expand.open, .ob-plan-expand.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.plan-expanded').forEach(el => el.classList.remove('plan-expanded'));
+}
+
+function togglePlanDetail(cardEl, planId) {
+  const expandEl = cardEl.querySelector('.plan-card-expand, .ob-plan-expand');
+  if(!expandEl) return;
+  const isOpen = cardEl.classList.contains('plan-expanded');
+  collapsePlanCards();
+  if(!isOpen) {
+    cardEl.classList.add('plan-expanded');
+    expandEl.classList.add('open');
+    setTimeout(() => cardEl.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+  }
+}
+
 function selectPlan(planId) {
+  collapsePlanCards();
   if(planId === activePlan) return; // already active
   showPlanConfirm(planId);
 }
