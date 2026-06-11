@@ -960,6 +960,45 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   padding: 6px; transition: color 0.15s;
 }
 .plan-collapse-link:hover { color: var(--muted); }
+
+/* DASHBOARD */
+.dash-greeting { padding: 1.5rem 0 1rem; }
+.dash-greeting-line { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.5px; color: var(--text); line-height: 1.1; }
+.dash-quote { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; line-height: 1.4; }
+.dash-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 1rem; margin-bottom: 0.75rem; }
+.dash-section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.dash-stats-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; }
+.dash-ring-card { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1rem 0.75rem; }
+.dash-streak-card { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem 0.75rem; text-align: center; }
+.dash-streak-num { font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif; font-size: 48px; line-height: 1; color: var(--text); }
+.dash-streak-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.dash-next-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.dash-next-lift { font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif; font-size: 28px; letter-spacing: 1px; line-height: 1; margin-bottom: 12px; }
+.dash-start-btn { width: 100%; padding: 11px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: var(--accent); color: #111; border: none; border-radius: var(--rs); cursor: pointer; }
+.dash-pr-banner { display: flex; align-items: center; gap: 10px; background: rgba(93,219,138,0.08); border: 1px solid rgba(93,219,138,0.25); border-radius: var(--r); padding: 12px 14px; margin-bottom: 0.75rem; }
+.dash-pr-text { font-size: 13px; color: var(--green); font-weight: 600; }
+.dash-vol-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.dash-vol-label { font-size: 11px; color: var(--muted); width: 46px; flex-shrink: 0; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; font-weight: 600; }
+.dash-vol-bar-wrap { flex: 1; display: flex; align-items: center; gap: 8px; }
+.dash-vol-bar { transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+.dash-vol-num { font-size: 10px; color: var(--muted); width: 44px; text-align: right; flex-shrink: 0; font-family: 'Barlow Condensed', sans-serif; }
+.dash-recent-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; cursor: pointer; border-bottom: 1px solid var(--border); }
+.dash-recent-row:last-child { border-bottom: none; padding-bottom: 2px; }
+.dash-recent-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dash-recent-main { flex: 1; min-width: 0; }
+.dash-recent-lift { font-size: 13px; font-weight: 600; color: var(--text); }
+.dash-recent-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.dash-recent-load { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+.dash-bw-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.dash-bw-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.dash-bw-chevron { font-size: 18px; color: var(--muted); transition: transform 0.2s; }
+.dash-bw-card.open .dash-bw-chevron { transform: rotate(90deg); }
+.dash-bw-body { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); }
+.dash-bw-card.open .dash-bw-body { max-height: 240px; }
+.dash-bw-body-inner { padding-top: 12px; }
+.dash-bw-input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.dash-bw-input { flex: 1; padding: 8px 10px; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--rs); color: var(--text); font-size: 15px; font-family: 'Barlow Condensed', sans-serif; }
+.dash-bw-save { padding: 8px 16px; background: var(--surface3); border: 1px solid var(--border2); border-radius: var(--rs); color: var(--text); font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; flex-shrink: 0; }
 </style>
 </head>
 <body class="splash-active">
@@ -1048,14 +1087,13 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
 
 <div class="nav-tabs">
-  <button class="nav-tab" id="nav-profile" onclick="switchPage('profile')">
+  <button class="nav-tab active" id="nav-dashboard" onclick="switchPage('dashboard')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
-
   </button>
-  <button class="nav-tab active" id="nav-log" onclick="switchPage('log')">
+  <button class="nav-tab" id="nav-log" onclick="switchPage('log')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2"/>
       <line x1="16" y1="2" x2="16" y2="6"/>
@@ -1065,18 +1103,52 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
       <line x1="12" y1="14" x2="12" y2="14" stroke-width="2.5"/>
       <line x1="16" y1="14" x2="16" y2="14" stroke-width="2.5"/>
     </svg>
-
   </button>
   <button class="nav-tab" id="nav-prs" onclick="switchPage('prs')">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="3 17 8 11 13 14 21 6"/>
       <polyline points="17 6 21 6 21 10"/>
     </svg>
-
+  </button>
+  <button class="nav-tab" id="nav-profile" onclick="switchPage('profile')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
   </button>
 </div>
 
-<div id="page-log" class="page active">
+<div id="page-dashboard" class="page active">
+  <div style="padding:0 1.25rem 0.5rem">
+    <div id="dash-greeting" class="dash-greeting"></div>
+    <div class="dash-stats-row">
+      <div class="dash-card dash-ring-card" id="dash-ring-card"></div>
+      <div class="dash-card dash-streak-card" id="dash-streak-card"></div>
+    </div>
+    <div id="dash-next-card"></div>
+    <div id="dash-pr-section"></div>
+    <div class="dash-card" id="dash-volume-card"></div>
+    <div class="dash-card" id="dash-recent-card"></div>
+    <div class="dash-card dash-bw-card" id="dash-bw-card">
+      <div class="dash-bw-header" onclick="toggleBWCard()">
+        <div class="dash-bw-label">Bodyweight</div>
+        <div class="dash-bw-chevron">&#x203A;</div>
+      </div>
+      <div class="dash-bw-body">
+        <div class="dash-bw-body-inner">
+          <div class="dash-bw-input-row">
+            <input type="number" min="30" max="500" step="0.1" id="dash-bw-input" class="dash-bw-input" placeholder="Today's weight">
+            <span id="dash-bw-unit" style="font-size:12px;color:var(--muted)">lbs</span>
+            <button class="dash-bw-save" onclick="logBodyweight()">Log</button>
+          </div>
+          <canvas id="dash-bw-chart" height="90"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-log" class="page">
   <div class="page-header">
     <h2 id="log-plan-name" style="font-size:18px;letter-spacing:1px;color:var(--accent)">12-Week Periodization</h2>
   </div>
@@ -2061,7 +2133,7 @@ function init(){
   updateUnitsSubLabel();
   updatePlanBadges();
   updateLogPlanName();
-  renderSetup();renderAll();
+  renderSetup();renderAll();renderDashboard();
   // Auto-open next pending day
   setTimeout(() => autoOpenNextDay(), 100);
   document.addEventListener('keydown',e=>{
@@ -2077,6 +2149,284 @@ function init(){
   },{passive:true});
 }
 
+const DASH_QUOTES = [
+  "The only bad workout is the one that didn't happen.",
+  "Strength doesn't come from what you can do. It comes from overcoming what you thought you couldn't.",
+  "Fall in love with the process and the results will come.",
+  "You don't have to be extreme, just consistent.",
+  "Every rep is a step closer.",
+  "Train hard, recover harder.",
+  "Progress, not perfection.",
+  "Show up. Do the work. Go home. Repeat.",
+  "Your future self is watching you right now.",
+  "The bar doesn't care how you feel today.",
+  "Small steps every day lead to big changes.",
+  "Discipline is doing it even when you don't feel like it.",
+  "One more rep. One more set. One more step.",
+  "Be stronger than your excuses.",
+  "Consistency beats intensity every time.",
+  "You're one workout away from a good mood.",
+  "Iron never lies.",
+  "Trust the process.",
+  "Earn it.",
+  "The pain you feel today is the strength you feel tomorrow."
+];
+let dashBWChart = null;
+
+function getDashQuote() {
+  const today = new Date().toDateString();
+  if (localStorage.getItem('ll_quote_date') !== today) {
+    localStorage.setItem('ll_quote_index', String(Math.floor(Math.random() * DASH_QUOTES.length)));
+    localStorage.setItem('ll_quote_date', today);
+  }
+  return DASH_QUOTES[parseInt(localStorage.getItem('ll_quote_index') || '0') % DASH_QUOTES.length];
+}
+
+function getTrainingStreak() {
+  if (!activePlan) return 0;
+  const plan = getActivePlan();
+  let startWeek = currentWeek;
+  let hasCurrentWeek = false;
+  for (let d = 1; d <= plan.days; d++) { if (getLog(currentWeek, d)?.saved) { hasCurrentWeek = true; break; } }
+  if (!hasCurrentWeek) startWeek = currentWeek - 1;
+  let streak = 0;
+  for (let w = startWeek; w >= 1; w--) {
+    let hasSaved = false;
+    for (let d = 1; d <= plan.days; d++) { if (getLog(w, d)?.saved) { hasSaved = true; break; } }
+    if (hasSaved) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function getNextWorkout() {
+  if (!activePlan) return null;
+  const plan = getActivePlan();
+  for (let w = currentWeek; w <= TOTAL_WEEKS; w++) {
+    for (let d = 1; d <= plan.days; d++) {
+      const entry = getLog(w, d);
+      if (!entry?.saved && !entry?.skipped) {
+        const lift = entry?.lift || (plan.isGZCLP ? getGZCLPLiftForDay(w, d) : (plan.dayLifts[d - 1] || ''));
+        const dayLabel = plan.isGZCLP ? gzclpDayType(w, d) + '-Day' : 'Day ' + d;
+        return { week: w, day: d, lift, dayLabel };
+      }
+    }
+  }
+  return { complete: true };
+}
+
+function getRecentPR() {
+  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const lifts = ['Back Squat','Bench Press','Deadlift','Shoulder Press','Squat','Overhead Press'];
+  let best = null;
+  for (const lift of lifts) {
+    const hist = JSON.parse(localStorage.getItem('ll_pr_history_' + lift.replace(/ /g,'_')) || '[]');
+    for (const e of hist) {
+      if (e.date > cutoff && (!best || e.date > best.date)) best = { lift, load: e.load, date: e.date };
+    }
+  }
+  return best;
+}
+
+function getRecentSessions(n) {
+  n = n || 3;
+  const sessions = [];
+  for (const [k, v] of Object.entries(logData)) {
+    if (!v?.saved) continue;
+    const m = k.match(/w(\d+)_d(\d+)/);
+    if (m) sessions.push({ week: parseInt(m[1]), day: parseInt(m[2]), ...v });
+  }
+  sessions.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+  return sessions.slice(0, n);
+}
+
+function getWeeklyVolume() {
+  const plan = activePlan ? getActivePlan() : null;
+  const lifts = plan?.isGZCLP ? plan.promptLifts : MAIN_LIFTS;
+  const vol = {};
+  lifts.forEach(l => { vol[l] = 0; });
+  const days = plan?.days || DAYS;
+  for (let d = 1; d <= days; d++) {
+    const e = getLog(currentWeek, d);
+    if (e?.saved && e.lift && Object.prototype.hasOwnProperty.call(vol, e.lift)) {
+      vol[e.lift] += (parseFloat(e.sets) || 0) * (parseFloat(e.reps) || 0) * (parseFloat(e.load) || 0);
+    }
+  }
+  return { vol, lifts };
+}
+
+function renderDashboard() {
+  const plan = activePlan ? getActivePlan() : null;
+  const u = weightUnit();
+  const acct = (typeof accountData !== 'undefined') ? accountData : {};
+
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : (hour < 17 ? 'Good afternoon' : 'Good evening');
+  const firstName = acct.firstname || 'Athlete';
+  const gEl = document.getElementById('dash-greeting');
+  if (gEl) gEl.innerHTML = '<div class="dash-greeting-line">' + greet + ', ' + firstName + '.</div>' +
+    '<div class="dash-quote">“' + getDashQuote() + '”</div>';
+
+  const totalDays = plan ? plan.days : 4;
+  let doneDays = 0;
+  for (let d = 1; d <= totalDays; d++) { if (getLog(currentWeek, d)?.saved) doneDays++; }
+  const ringPct = totalDays > 0 ? doneDays / totalDays : 0;
+  const r = 32, cx = 38, cy = 38, circ = parseFloat((2 * Math.PI * r).toFixed(1));
+  const offset = parseFloat((circ * (1 - ringPct)).toFixed(1));
+  const ringEl = document.getElementById('dash-ring-card');
+  if (ringEl) ringEl.innerHTML = '<div class="dash-section-label">This Week</div>' +
+    '<svg width="76" height="76" viewBox="0 0 76 76">' +
+    '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="var(--border2)" stroke-width="5.5"/>' +
+    '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="var(--accent)" stroke-width="5.5"' +
+    ' stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '"' +
+    ' stroke-linecap="round" transform="rotate(-90 ' + cx + ' ' + cy + ')"/>' +
+    '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" dominant-baseline="central"' +
+    ' font-family="\'Bebas Neue\',\'Barlow Condensed\',sans-serif" font-size="17" fill="var(--text)">' + Math.round(ringPct * 100) + '%</text>' +
+    '</svg>' +
+    '<div style="font-size:11px;color:var(--muted);margin-top:4px">' + doneDays + ' / ' + totalDays + ' sessions</div>';
+
+  const streak = getTrainingStreak();
+  const streakEl = document.getElementById('dash-streak-card');
+  if (streakEl) streakEl.innerHTML = '<div class="dash-section-label">Streak</div>' +
+    (streak > 0
+      ? '<div class="dash-streak-num">' + streak + '</div><div class="dash-streak-sub">🔥 week' + (streak !== 1 ? 's' : '') + ' running</div>'
+      : '<div style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:4px">Start your<br>streak today</div>');
+
+  const nextEl = document.getElementById('dash-next-card');
+  if (nextEl) {
+    if (!activePlan) {
+      nextEl.innerHTML = '<div class="dash-card" style="text-align:center;padding:1.25rem">' +
+        '<div style="font-size:13px;color:var(--muted);margin-bottom:12px">No program selected</div>' +
+        '<button onclick="switchPage(\'profile\');goProfileScreen(\'profile-plans\')" style="padding:9px 22px;font-family:\'Barlow Condensed\',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:var(--rs);cursor:pointer">Choose a Program →</button>' +
+        '</div>';
+    } else {
+      const next = getNextWorkout();
+      if (next && next.complete) {
+        nextEl.innerHTML = '<div class="dash-card" style="text-align:center;padding:1.5rem">' +
+          '<div style="font-size:30px;margin-bottom:8px">🏆</div>' +
+          '<div style="font-family:\'Bebas Neue\',\'Barlow Condensed\',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text)">Cycle Complete</div>' +
+          '<div style="font-size:13px;color:var(--muted);margin-top:4px">All weeks logged. Start a new cycle in Profile.</div>' +
+          '</div>';
+      } else if (next) {
+        const liftColor = LIFT_COLORS[next.lift] || 'var(--accent)';
+        nextEl.innerHTML = '<div class="dash-card" style="border-left:3px solid ' + liftColor + '">' +
+          '<div class="dash-next-label">Next Workout — Wk ' + next.week + ' · ' + next.dayLabel + '</div>' +
+          '<div class="dash-next-lift" style="color:' + liftColor + '">' + (next.lift || '—') + '</div>' +
+          '<button class="dash-start-btn" onclick="switchPage(\'log\');currentWeek=' + next.week + ';renderAll()">Start Workout →</button>' +
+          '</div>';
+      }
+    }
+  }
+
+  const prEl = document.getElementById('dash-pr-section');
+  if (prEl) {
+    const pr = getRecentPR();
+    prEl.innerHTML = pr
+      ? '<div class="dash-pr-banner"><span style="font-size:18px;flex-shrink:0">🏆</span><div class="dash-pr-text">New PR this week — ' + pr.lift + ': ' + pr.load + ' ' + u + '</div></div>'
+      : '';
+  }
+
+  const volEl = document.getElementById('dash-volume-card');
+  if (volEl) {
+    const wv = getWeeklyVolume();
+    const maxVol = Math.max.apply(null, Object.values(wv.vol).concat([1]));
+    const VLABELS = { 'Back Squat':'Squat','Shoulder Press':'OHP','Overhead Press':'OHP' };
+    const rows = wv.lifts.map(function(l) {
+      const v = wv.vol[l];
+      const barPct = v > 0 ? Math.max(Math.round(v / maxVol * 100), 4) : 0;
+      const color = LIFT_COLORS[l] || 'var(--muted)';
+      const label = VLABELS[l] || l;
+      return '<div class="dash-vol-row">' +
+        '<div class="dash-vol-label">' + label + '</div>' +
+        '<div class="dash-vol-bar-wrap">' +
+        '<div style="flex:1;height:7px;background:var(--border2);border-radius:4px;overflow:hidden">' +
+        '<div class="dash-vol-bar" style="width:' + barPct + '%;height:100%;background:' + color + ';border-radius:4px"></div>' +
+        '</div>' +
+        '<span class="dash-vol-num">' + (v > 0 ? Math.round(v).toLocaleString() : '—') + '</span>' +
+        '</div></div>';
+    }).join('');
+    volEl.innerHTML = '<div class="dash-section-label">Weekly Volume</div>' + rows;
+  }
+
+  const recentEl = document.getElementById('dash-recent-card');
+  if (recentEl) {
+    const sessions = getRecentSessions(3);
+    if (sessions.length === 0) {
+      recentEl.innerHTML = '<div class="dash-section-label">Recent Sessions</div>' +
+        '<div style="font-size:13px;color:var(--muted);padding:4px 0 2px">No sessions logged yet</div>';
+    } else {
+      const rows = sessions.map(function(s) {
+        const isGZCLP = plan && plan.isGZCLP;
+        const dayLabel = isGZCLP ? 'Wk ' + s.week + ' · ' + gzclpDayType(s.week, s.day) + '-Day' : 'Wk ' + s.week + ' · Day ' + s.day;
+        const color = LIFT_COLORS[s.lift] || 'var(--muted2)';
+        const dateStr = s.ts ? new Date(s.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+        return '<div class="dash-recent-row" onclick="switchPage(\'log\');currentWeek=' + s.week + ';renderAll()">' +
+          '<div class="dash-recent-dot" style="background:' + color + '40;border:2px solid ' + color + '"></div>' +
+          '<div class="dash-recent-main">' +
+          '<div class="dash-recent-lift">' + (s.lift || '—') + '</div>' +
+          '<div class="dash-recent-meta">' + dayLabel + (dateStr ? ' · ' + dateStr : '') + '</div>' +
+          '</div>' +
+          '<div class="dash-recent-load">' + (s.load ? s.load + ' ' + u : '') + '</div>' +
+          '</div>';
+      }).join('');
+      recentEl.innerHTML = '<div class="dash-section-label">Recent Sessions</div>' + rows;
+    }
+  }
+
+  const bwUnit = document.getElementById('dash-bw-unit');
+  if (bwUnit) bwUnit.textContent = u;
+  const bwCard = document.getElementById('dash-bw-card');
+  if (bwCard && bwCard.classList.contains('open')) renderBWChart();
+}
+
+function toggleBWCard() {
+  const card = document.getElementById('dash-bw-card');
+  if (!card) return;
+  card.classList.toggle('open');
+  if (card.classList.contains('open')) renderBWChart();
+}
+
+function logBodyweight() {
+  const input = document.getElementById('dash-bw-input');
+  if (!input || !input.value) return;
+  const val = parseFloat(input.value);
+  if (!val || val <= 0) { showToast('Enter a valid weight'); return; }
+  const today = new Date().toISOString().slice(0, 10);
+  const entries = JSON.parse(localStorage.getItem('ll_bodyweight') || '[]');
+  const idx = entries.findIndex(function(e) { return e.date === today; });
+  if (idx >= 0) entries[idx].val = val;
+  else entries.push({ date: today, val: val });
+  if (entries.length > 60) entries.shift();
+  localStorage.setItem('ll_bodyweight', JSON.stringify(entries));
+  input.value = '';
+  showToast('Bodyweight logged');
+  renderBWChart();
+}
+
+function renderBWChart() {
+  const canvas = document.getElementById('dash-bw-chart');
+  if (!canvas) return;
+  const entries = JSON.parse(localStorage.getItem('ll_bodyweight') || '[]').slice(-8);
+  if (dashBWChart) { dashBWChart.destroy(); dashBWChart = null; }
+  if (entries.length < 2) { canvas.style.display = 'none'; return; }
+  canvas.style.display = '';
+  dashBWChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: entries.map(function(e) { const d = new Date(e.date + 'T12:00:00'); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }),
+      datasets: [{ data: entries.map(function(e) { return e.val; }), borderColor: '#f0c040', backgroundColor: 'rgba(240,192,64,0.07)', borderWidth: 2, fill: true, tension: 0.35, pointRadius: 3, pointBackgroundColor: '#f0c040' }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return ctx.parsed.y + ' ' + weightUnit(); } } } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 9 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 9 } } }
+      }
+    }
+  });
+}
+
 function switchPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
@@ -2090,6 +2440,7 @@ function switchPage(p){
   if(p==='prs') renderPRs();
   if(p==='charts') renderChart();
   if(p==='profile') initProfilePage();
+  if(p==='dashboard') renderDashboard();
 }
 
 function changeWeek(dir,anim){
