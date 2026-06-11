@@ -957,6 +957,13 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
       </div>
       <div class="ob-plan-arrow">›</div>
     </div>
+    <div class="ob-plan-card" onclick="obFinish(); selectPlan('gzclp')">
+      <div class="ob-plan-content">
+        <div class="ob-plan-name">GZCLP</div>
+        <div class="ob-plan-desc">Linear progression for beginners. Add weight every session, master the big movements.</div>
+      </div>
+      <div class="ob-plan-arrow">›</div>
+    </div>
   </div>
 </div>
 
@@ -1189,13 +1196,22 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
         </div>
       </div>
 
-      <div class="plan-card" style="opacity:0.5">
+      <div class="plan-card" id="plan-gzclp-card" onclick="selectPlan('gzclp')" style="cursor:pointer">
         <div class="plan-card-header">
           <div>
             <div class="plan-card-title">GZCLP</div>
             <div class="plan-card-sub">Linear progression for beginners</div>
           </div>
-          <div class="plan-coming-soon">Coming soon</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+            <div id="plan-gzclp-badge" class="active-plan-badge" style="display:none">Active</div>
+            <div id="plan-gzclp-count" class="plan-completion-count"></div>
+          </div>
+        </div>
+        <div class="plan-card-phases">
+          <div class="plan-phase"><span style="color:#50dc78">●</span> 3 days/week: A/B day alternation</div>
+          <div class="plan-phase"><span style="color:#50dc78">●</span> T1: 5×3 heavy compound (+5 lbs/session)</div>
+          <div class="plan-phase"><span style="color:#50dc78">●</span> T2: 3×10 accessory (+5 lbs/session)</div>
+          <div class="plan-phase"><span style="color:#50dc78">●</span> T3: 2×15+ AMRAP</div>
         </div>
       </div>
     </div>
@@ -1587,6 +1603,24 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
           <div class="plan-phase"><span style="color:#60a0ff">●</span> Weeks 4, 8, 12: Deload</div>
         </div>
       </div>
+      <div class="plan-card" id="p-plan-gzclp-card" onclick="selectPlan('gzclp')" style="cursor:pointer">
+        <div class="plan-card-header">
+          <div>
+            <div class="plan-card-title">GZCLP</div>
+            <div class="plan-card-sub">Linear progression for beginners</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+            <div id="p-plan-gzclp-badge" class="active-plan-badge" style="display:none">Active</div>
+            <div id="p-plan-gzclp-count" class="plan-completion-count"></div>
+          </div>
+        </div>
+        <div class="plan-card-phases">
+          <div class="plan-phase"><span style="color:#50dc78">●</span> 3 days/week: A/B day alternation</div>
+          <div class="plan-phase"><span style="color:#50dc78">●</span> T1: 5×3 heavy compound (+5 lbs/session)</div>
+          <div class="plan-phase"><span style="color:#50dc78">●</span> T2: 3×10 accessory (+5 lbs/session)</div>
+          <div class="plan-phase"><span style="color:#50dc78">●</span> T3: 2×15+ AMRAP</div>
+        </div>
+      </div>
     </div>
 
     <!-- TRAINING REPORTS -->
@@ -1617,7 +1651,9 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 const MAIN_LIFTS = ['Back Squat','Bench Press','Deadlift','Shoulder Press'];
 const LIFT_COLORS = {
   'Back Squat':'#60a0ff','Bench Press':'#50dc78',
-  'Deadlift':'#b464ff','Shoulder Press':'#ff8250'
+  'Deadlift':'#b464ff','Shoulder Press':'#ff8250',
+  'Squat':'#60a0ff','Overhead Press':'#ff8250',
+  'Barbell Row':'#5ddb8a','Lat Pulldown':'#9090b0'
 };
 const ALL_ACCESSORIES = [
   'Ab Wheel Rollout','Arnold Press','Back Extension','Barbell Row','Bicep Curl',
@@ -1696,6 +1732,38 @@ const PROGRAMS = {
       3: [{ex:'Hip Thrust',s:'3',r:'10'},{ex:'Leg Curl',s:'3',r:'10'},{ex:'Back Extension',s:'3',r:'12'}],
       4: [{ex:'DB Row',s:'3',r:'10'},{ex:'Rear Delt Fly',s:'3',r:'15'},{ex:'Bicep Curl',s:'3',r:'12'}]
     }
+  },
+  'gzclp': {
+    id: 'gzclp',
+    name: 'GZCLP',
+    description: 'Linear progression for beginners by Cody Lefever',
+    weeks: 12,
+    days: 3,
+    isGZCLP: true,
+    useTM: false,
+    warmupRows: 0,
+    t1ChainA: ['Squat','Bench Press','Overhead Press'],
+    t1ChainB: ['Deadlift','Barbell Row'],
+    lowerLifts: ['Squat','Deadlift','Barbell Row'],
+    t1Increment: {lower:5, upper:2.5},
+    t2Increment: 5,
+    promptLifts: ['Squat','Bench Press','Deadlift','Overhead Press'],
+    dayLifts: ['Squat','Deadlift','Squat'],
+    weeklyScheme: [
+      {phase:'Linear Progression', pattern:'ABA'},
+      {phase:'Linear Progression', pattern:'BAB'},
+      {phase:'Linear Progression', pattern:'ABA'},
+      {phase:'Linear Progression', pattern:'BAB'},
+      {phase:'Linear Progression', pattern:'ABA'},
+      {phase:'Linear Progression', pattern:'BAB'},
+      {phase:'Linear Progression', pattern:'ABA'},
+      {phase:'Linear Progression', pattern:'BAB'},
+      {phase:'Linear Progression', pattern:'ABA'},
+      {phase:'Linear Progression', pattern:'BAB'},
+      {phase:'Linear Progression', pattern:'ABA'},
+      {phase:'Linear Progression', pattern:'BAB'},
+    ],
+    accessories: {1:[],2:[],3:[]}
   }
 };
 
@@ -1704,7 +1772,8 @@ const PROGRAM = PROGRAMS['12week'].weeklyScheme;
 const PHASE_COLORS = {
   'Accumulation':'#f0c040','Intensification':'#ff8250',
   'Peak Strength':'#5ddb8a','Deload':'#60a0ff','Deload / Test':'#60a0ff',
-  '5s Week':'#f0c040','3s Week':'#ff8250','5/3/1 Week':'#5ddb8a'
+  '5s Week':'#f0c040','3s Week':'#ff8250','5/3/1 Week':'#5ddb8a',
+  'Linear Progression':'#50dc78'
 };
 let TOTAL_WEEKS=12, DAYS=4;
 function getActivePlan(){ return PROGRAMS[activePlan] || PROGRAMS["12week"]; }
@@ -1723,8 +1792,107 @@ function getLog(w,d){return logData[key(w,d)]||null;}
 function setLog(w,d,v){logData[key(w,d)]=v;localStorage.setItem('ll_log',JSON.stringify(logData));}
 function weekDone(w){let n=0;for(let d=1;d<=DAYS;d++){const e=getLog(w,d);if(e?.saved||e?.skipped)n++;}return n;}
 function round25(v){return Math.round(v/2.5)*2.5;}
-function getPrescription(week, lift) {
+
+// ---- GZCLP helpers ----
+function gzclpDayType(week, day) {
+  const oddWeek = week % 2 === 1;
+  if(day === 2) return oddWeek ? 'B' : 'A';
+  return oddWeek ? 'A' : 'B';
+}
+function gzclpSessionCount(targetWeek, targetDay, liftDayType) {
+  let count = 0;
+  for(let w = 1; w <= targetWeek; w++) {
+    const maxD = (w === targetWeek) ? targetDay - 1 : 3;
+    for(let d = 1; d <= maxD; d++) {
+      if(gzclpDayType(w, d) === liftDayType) count++;
+    }
+  }
+  return count;
+}
+function getGZCLPDayStructure() {
+  const plan = PROGRAMS['gzclp'];
+  const t1aIdx = Math.min(parseInt(localStorage.getItem('ll_gzclp_t1a') || '0'), plan.t1ChainA.length - 1);
+  const t1bIdx = Math.min(parseInt(localStorage.getItem('ll_gzclp_t1b') || '0'), plan.t1ChainB.length - 1);
+  const t1A = plan.t1ChainA[t1aIdx];
+  const t1B = plan.t1ChainB[t1bIdx];
+  const t2A = t1aIdx === 0 ? 'Bench Press' : (t1aIdx === 1 ? 'Overhead Press' : null);
+  const t2B = (t1A === 'Overhead Press') ? 'Bench Press' : 'Overhead Press';
+  const t3B = (t1bIdx === 0) ? 'Barbell Row' : null;
+  return {
+    A: { T1: t1A, T2: t2A, T3: 'Lat Pulldown' },
+    B: { T1: t1B, T2: t2B, T3: t3B }
+  };
+}
+function getGZCLPLiftForDay(week, day) {
+  if(day > 3) return '';
+  return getGZCLPDayStructure()[gzclpDayType(week, day)].T1 || '';
+}
+function swapGZCLPT1(chain) {
+  const plan = PROGRAMS['gzclp'];
+  const lsKey = chain === 'A' ? 'll_gzclp_t1a' : 'll_gzclp_t1b';
+  const chainArr = chain === 'A' ? plan.t1ChainA : plan.t1ChainB;
+  const current = parseInt(localStorage.getItem(lsKey) || '0');
+  if(current < chainArr.length - 1) {
+    localStorage.setItem(lsKey, String(current + 1));
+    showToast('T1 progression → ' + chainArr[current + 1]);
+  }
+}
+function markGZCLPT1Fail(lift) {
+  const k = 'll_gzclp_fails_' + lift.replace(/ /g, '_');
+  const count = parseInt(localStorage.getItem(k) || '0') + 1;
+  localStorage.setItem(k, String(count));
+  if(count >= 3) {
+    const struct = getGZCLPDayStructure();
+    const chain = (lift === struct.A.T1) ? 'A' : 'B';
+    localStorage.setItem(k, '0');
+    swapGZCLPT1(chain);
+    logData = {};
+    localStorage.setItem('ll_log', JSON.stringify(logData));
+    autoPopulateAllWeeks();
+    renderAll();
+  }
+}
+function resetGZCLPT1Fail(lift) {
+  localStorage.setItem('ll_gzclp_fails_' + lift.replace(/ /g, '_'), '0');
+}
+function getGZCLPPrescription(week, lift, day) {
+  const plan = PROGRAMS['gzclp'];
+  const scheme = plan.weeklyScheme[week - 1];
+  if(!scheme) return {sets:1, reps:1, load:0, pct:0};
+  const struct = getGZCLPDayStructure();
+  const dayType = day ? gzclpDayType(week, day) : 'A';
+  const dayStruct = struct[dayType];
+  const startWeight = setupData[lift] || 0;
+  let tier = 'T3', liftDayType = dayType;
+  if(lift === struct.A.T1) { tier = 'T1'; liftDayType = 'A'; }
+  else if(lift === struct.B.T1) { tier = 'T1'; liftDayType = 'B'; }
+  else if(lift === struct.A.T2) { tier = 'T2'; liftDayType = 'A'; }
+  else if(lift === struct.B.T2) { tier = 'T2'; liftDayType = 'B'; }
+  const sessionCount = day ? gzclpSessionCount(week, day, liftDayType) : 0;
+  if(tier === 'T1') {
+    const isLower = plan.lowerLifts.includes(lift);
+    const inc = isLower ? plan.t1Increment.lower : plan.t1Increment.upper;
+    const load = startWeight ? round25(startWeight + sessionCount * inc) : 0;
+    const t2Lift = dayStruct.T2, t3Lift = dayStruct.T3;
+    let t2Presc = null, t3Presc = null;
+    if(t2Lift) {
+      const t2Start = setupData[t2Lift] || 0;
+      t2Presc = {lift: t2Lift, sets: 3, reps: 10, load: t2Start ? round25(t2Start + sessionCount * plan.t2Increment) : 0};
+    }
+    if(t3Lift) t3Presc = {lift: t3Lift, sets: 2, reps: '15+'};
+    return {sets:5, reps:3, load, pct:0, phase:scheme.phase, isGZCLP:true, tier:'T1', increment:inc, sessionCount, t2:t2Presc, t3:t3Presc};
+  } else if(tier === 'T2') {
+    const load = startWeight ? round25(startWeight + sessionCount * plan.t2Increment) : 0;
+    return {sets:3, reps:10, load, pct:0, phase:scheme.phase, isGZCLP:true, tier:'T2', increment:plan.t2Increment, sessionCount};
+  } else {
+    return {sets:2, reps:'15+', load:0, pct:0, phase:scheme.phase, isGZCLP:true, tier:'T3', amrap:true};
+  }
+}
+// ---- end GZCLP helpers ----
+
+function getPrescription(week, lift, day) {
   const plan = getActivePlan();
+  if(plan.isGZCLP) return getGZCLPPrescription(week, lift, day);
   const scheme = plan.weeklyScheme[week-1];
   if(!scheme) return {sets:1,reps:1,load:0,pct:0};
   const oneRM = setupData[lift] || 0;
@@ -1856,7 +2024,7 @@ function applyTemplateAllWeeks(){
       const td=template[d];if(!td)continue;
       const existing=getLog(w,d);
       if(existing?.saved)continue; // don't overwrite saved entries
-      const presc=getPrescription(w,td.lift);
+      const presc=getPrescription(w,td.lift,d);
       setLog(w,d,{
         lift:td.lift,
         sets:presc.sets,reps:presc.reps,load:presc.load,
@@ -1905,15 +2073,17 @@ function renderDays(anim){
   document.querySelector('.cycle-progress-wrap') && (document.querySelector('.cycle-progress-wrap').style.display = '');
   document.querySelector('.page-header') && (document.querySelector('.page-header').style.display = '');
 
-  // Show PRs missing banner if no 1RMs set
-  const missingPRs = MAIN_LIFTS.filter(l => !setupData[l] || setupData[l] === 0);
+  // Show PRs missing banner if no starting weights/1RMs set
+  const promptLifts = plan.isGZCLP ? plan.promptLifts : MAIN_LIFTS;
+  const missingPRs = promptLifts.filter(l => !setupData[l] || setupData[l] === 0);
   const existingBanner = document.getElementById('missing-prs-banner');
   if(existingBanner) existingBanner.remove();
   if(missingPRs.length > 0) {
     const banner = document.createElement('div');
     banner.id = 'missing-prs-banner';
     banner.style.cssText = 'margin:0 1.25rem 0.75rem;background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.3);border-radius:var(--rs);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px';
-    banner.innerHTML = `<span style="font-size:12px;color:var(--accent)">Enter your 1 Rep Max to auto-calculate training weights</span>
+    const bannerText = plan.isGZCLP ? 'Enter your starting weights to auto-calculate session loads' : 'Enter your 1 Rep Max to auto-calculate training weights';
+    banner.innerHTML = `<span style="font-size:12px;color:var(--accent)">${bannerText}</span>
       <button onclick="switchPage('prs')" style="font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:var(--rs);padding:5px 10px;cursor:pointer;white-space:nowrap">Set PRs</button>`;
     scroll.before(banner);
   }
@@ -1926,14 +2096,16 @@ function renderDays(anim){
     const saved=getLog(currentWeek,d);
     const hasSave=saved?.saved;
     const selLift=saved?.lift||'';
-    const presc=selLift?getPrescription(currentWeek,selLift):(plan.useTM?{weekPlan:plan.weeklyScheme[currentWeek-1],tm:0,phase:(plan.weeklyScheme[currentWeek-1]||{}).phase||'',sets:1,reps:1,load:0,pct:0,is531:true}:null);
+    const presc=selLift?getPrescription(currentWeek,selLift,d):(plan.useTM?{weekPlan:plan.weeklyScheme[currentWeek-1],tm:0,phase:(plan.weeklyScheme[currentWeek-1]||{}).phase||'',sets:1,reps:1,load:0,pct:0,is531:true}:null);
     const savedSets=saved?.sets!==undefined?saved.sets:(presc?.sets||'');
     const savedReps=saved?.reps!==undefined?saved.reps:(presc?.reps||'');
     const savedLoad=saved?.load!==undefined?saved.load:(presc?.load||'');
     const liftColor=selLift?LIFT_COLORS[selLift]:'rgba(255,255,255,0.1)';
     let pctLabel = 'Select a lift to auto-fill';
     if(presc) {
-      if(plan.useTM && presc && presc.weekPlan) {
+      if(plan.isGZCLP && presc.isGZCLP) {
+        pctLabel = `${presc.phase} · ${presc.tier}: ${presc.sets}×${presc.reps}${presc.load ? ' @ ' + presc.load + ' ' + weightUnit() : ''}`;
+      } else if(plan.useTM && presc && presc.weekPlan) {
         const sets531 = presc.weekPlan.sets;
         const topSet = sets531[sets531.length-1];
         pctLabel = `${presc.phase} · TM: ${presc.tm||'—'} ${weightUnit()}`;
@@ -1961,7 +2133,7 @@ function renderDays(anim){
       <div class="day-header" onclick="toggleDay(${d})">
         <div class="day-header-left">
           <div>
-            <div class="day-label">Day ${d}</div>
+            <div class="day-label">Day ${d}${plan.isGZCLP ? ` · ${gzclpDayType(currentWeek,d)}-Day` : ''}</div>
             <div class="day-summary">${summaryText}</div>
           </div>
         </div>
@@ -2070,7 +2242,7 @@ function onLiftChange(d){
   const lift=document.getElementById(`d${d}_lift`).value;
   document.getElementById(`d${d}_colorbar`).style.background=lift?LIFT_COLORS[lift]+'88':'rgba(255,255,255,0.1)';
   if(!lift)return;
-  const presc=getPrescription(currentWeek,lift);
+  const presc=getPrescription(currentWeek,lift,d);
 
   function setField(id, val) {
     const el=document.getElementById(id);
@@ -2102,21 +2274,31 @@ function saveDay(d){
   // Get data from program definition (no input fields in new session view)
   const existing = getLog(currentWeek, d);
   const plan = getActivePlan();
-  const lift = existing?.lift || plan.dayLifts[d-1] || '';
+  const lift = existing?.lift || (plan.isGZCLP ? getGZCLPLiftForDay(currentWeek, d) : (plan.dayLifts[d-1] || ''));
   if(!lift){showToast('No lift assigned to this day');return;}
-  const presc = getPrescription(currentWeek, lift);
+  const presc = getPrescription(currentWeek, lift, d);
   let sets = presc.sets || 1;
   let reps = presc.reps || 1;
   let load = presc.load || 0;
   const accs = existing?.accs || (plan.accessories && plan.accessories[d]) || [];
-  // Check PR BEFORE saving so current entry isn't included in previous bests
-  const prOneRM = checkPR(lift, parseFloat(load));
+  // Check PR BEFORE saving (skip for GZCLP — setupData stores starting weight, not 1RM)
+  const prOneRM = plan.isGZCLP ? null : checkPR(lift, parseFloat(load));
   setLog(currentWeek,d,{lift,sets:parseFloat(sets),reps:parseFloat(reps),load:parseFloat(load),accs,saved:true,ts:Date.now()});
-  // Auto-update 1RM if this load is higher than current PR
-  const currentPR = setupData[lift] || 0;
-  if(parseFloat(load) > currentPR) {
-    setupData[lift] = parseFloat(load);
-    localStorage.setItem('ll_setup', JSON.stringify(setupData));
+  // Auto-update 1RM if this load is higher than current PR (non-GZCLP only)
+  if(!plan.isGZCLP) {
+    const currentPR = setupData[lift] || 0;
+    if(parseFloat(load) > currentPR) {
+      setupData[lift] = parseFloat(load);
+      localStorage.setItem('ll_setup', JSON.stringify(setupData));
+    }
+  }
+  // GZCLP T1 failure tracking
+  if(plan.isGZCLP) {
+    const failCheck = document.getElementById(`d${d}_t1_fail`);
+    if(failCheck) {
+      if(failCheck.checked) markGZCLPT1Fail(lift);
+      else resetGZCLPT1Fail(lift);
+    }
   }
   const card=document.getElementById(`dc-${d}`);
   card.classList.add('saved-day');
@@ -2141,7 +2323,8 @@ function saveDay(d){
   }
 
   // Auto-advance to next unsaved day
-  const nextDay = [1,2,3,4].find(i => i > d && !getLog(currentWeek,i)?.saved);
+  const planDayNums = Array.from({length: plan.days}, (_, i) => i + 1);
+  const nextDay = planDayNums.find(i => i > d && !getLog(currentWeek,i)?.saved);
   if(nextDay) {
     setTimeout(()=>{
       for(let i=1;i<=DAYS;i++) document.getElementById(`dc-${i}`)?.classList.remove('open');
@@ -2763,7 +2946,7 @@ function startNewCycle(mode) {
       for(let w=1;w<=TOTAL_WEEKS;w++) {
         for(let d=1;d<=DAYS;d++) {
           const td = template[d]; if(!td) continue;
-          const presc = getPrescription(w, td.lift);
+          const presc = getPrescription(w, td.lift, d);
           setLog(w, d, {
             lift: td.lift, sets: presc.sets, reps: presc.reps, load: presc.load,
             accs: td.accs.map(a=>({...a})), saved: false, prefilled: true
@@ -2911,7 +3094,10 @@ function showPRPrompt(missing) {
   const overlay = document.createElement('div');
   overlay.id = 'pr-prompt-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:1.5rem;';
-  const fields = MAIN_LIFTS.map(l => {
+  const activePlanObj = getActivePlan();
+  const promptLifts = activePlanObj?.promptLifts || MAIN_LIFTS;
+  const isGZCLP = activePlanObj?.isGZCLP;
+  const fields = promptLifts.map(l => {
     const isMissing = !setupData[l] || setupData[l] === 0;
     const key = l.replace(/ /g,'_');
     return `<div style="padding:10px 0;border-bottom:1px solid var(--border)">
@@ -2941,8 +3127,8 @@ function showPRPrompt(missing) {
   overlay.innerHTML = `
     <div style="position:relative;background:var(--surface);border:1px solid var(--accent);border-radius:var(--r);padding:1.5rem;width:100%;max-width:380px;max-height:85vh;overflow-y:auto;">
       <button onclick="closePRPrompt()" style="position:sticky;top:0;float:right;background:var(--surface2);border:1px solid var(--border2);color:var(--muted);font-size:18px;cursor:pointer;padding:2px 8px;line-height:1;border-radius:4px;margin-left:12px;margin-bottom:8px;z-index:10">×</button>
-      <div style="font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:4px;clear:right">Enter Your 1 Rep Max</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:1.25rem;line-height:1.5">Your PRs are needed to calculate training weights. Enter your current 1RM for each lift.</div>
+      <div style="font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:4px;clear:right">${isGZCLP ? 'Enter Starting Weights' : 'Enter Your 1 Rep Max'}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:1.25rem;line-height:1.5">${isGZCLP ? 'Enter your current working weight for each lift. GZCLP adds weight each session automatically.' : 'Your PRs are needed to calculate training weights. Enter your current 1RM for each lift.'}</div>
       ${fields}
       <button id="pr-prompt-save-btn" onclick="savePRPrompt()" disabled style="width:100%;margin-top:1.25rem;padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:var(--rs);border:1px solid var(--border2);background:var(--surface2);color:var(--muted2);cursor:not-allowed;transition:all 0.2s;">Save & Start Training</button>
     </div>`;
@@ -2984,7 +3170,8 @@ function closePRPrompt() {
 }
 
 function checkPRPromptReady() {
-  const allFilled = MAIN_LIFTS.every(l => {
+  const promptLifts = getActivePlan()?.promptLifts || MAIN_LIFTS;
+  const allFilled = promptLifts.every(l => {
     const val = document.getElementById('prprompt_'+l.replace(/ /g,'_'))?.value;
     return val && parseFloat(val) > 0;
   });
@@ -3000,14 +3187,14 @@ function checkPRPromptReady() {
 }
 
 function savePRPrompt() {
-  // Validate all 4 lifts have values
-  const missing = MAIN_LIFTS.filter(l => {
+  const promptLifts = getActivePlan()?.promptLifts || MAIN_LIFTS;
+  const missing = promptLifts.filter(l => {
     const val = document.getElementById('prprompt_'+l.replace(/ /g,'_'))?.value;
     return !val || parseFloat(val) <= 0;
   });
   if(missing.length > 0) return;
 
-  MAIN_LIFTS.forEach(l => {
+  promptLifts.forEach(l => {
     const val = document.getElementById('prprompt_'+l.replace(/ /g,'_'))?.value;
     setupData[l] = parseFloat(val);
   });
@@ -3042,14 +3229,15 @@ function showProgramReadyOverlay() {
 }
 
 function showPlanConfirm(planId) {
-  const planNames = {'12week':'12-Week Periodization','531':'5/3/1 Wendler'};
+  const planNames = {'12week':'12-Week Periodization','531':'5/3/1 Wendler','gzclp':'GZCLP'};
   const overlay = document.createElement('div');
   overlay.id = 'plan-confirm-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;padding:1.5rem;';
   const hasData = Object.keys(logData).length > 0;
   const isFirstTime = !localStorage.getItem('ll_active_plan');
+  const isGZCLP = planId === 'gzclp';
   const confirmMsg = isFirstTime || !hasData
-    ? `You're selecting <strong style="color:var(--text)">${planNames[planId]}</strong> as your training plan. Your sessions will be set up automatically based on your 1 Rep Max.`
+    ? `You're selecting <strong style="color:var(--text)">${planNames[planId]}</strong> as your training plan. Your sessions will be set up automatically based on your ${isGZCLP ? 'starting weights' : '1 Rep Max'}.`
     : `Switching to <strong style="color:var(--text)">${planNames[planId]}</strong> will cancel your current cycle and clear all logged data. This cannot be undone.`;
   const confirmTitle = isFirstTime || !hasData ? 'Start Training' : 'Switch Training Plan?';
 
@@ -3092,8 +3280,10 @@ function confirmPlanSwitch(planId) {
   updatePlanBadges();
   updateLogPlanName();
   goProfileScreen('profile-main');
-  // Check if PRs are set
-  const missingPRs = MAIN_LIFTS.filter(l => !setupData[l] || setupData[l] === 0);
+  // Check if starting weights / PRs are set
+  const switchPlan = PROGRAMS[planId];
+  const planPromptLifts = switchPlan?.isGZCLP ? switchPlan.promptLifts : MAIN_LIFTS;
+  const missingPRs = planPromptLifts.filter(l => !setupData[l] || setupData[l] === 0);
   if(missingPRs.length > 0) {
     showPRPrompt(missingPRs);
   } else {
@@ -3121,9 +3311,9 @@ function autoPopulateAllWeeks() {
       const existing = getLog(w,d);
       if(existing?.saved) continue;
       const td = template[d];
-      const lift = td ? td.lift : (plan.dayLifts[d-1] || '');
+      const lift = td ? td.lift : (plan.isGZCLP ? getGZCLPLiftForDay(w, d) : (plan.dayLifts[d-1] || ''));
       if(!lift) continue;
-      const presc = getPrescription(w, lift);
+      const presc = getPrescription(w, lift, d);
       const planAccs = (plan.accessories && plan.accessories[d]) || [];
       const accs = td ? td.accs.map(a=>({...a})) : planAccs.map(a=>({...a}));
       setLog(w,d,{lift, sets:presc.sets, reps:presc.reps, load:presc.load||0,
@@ -3143,20 +3333,21 @@ function updatePlanBadges() {
   const archived = JSON.parse(localStorage.getItem('ll_archived') || '[]');
   const count12 = archived.filter(c => (c.plan==='12-Week Periodization'||!c.plan) && !c.cancelled).length;
   const count531 = archived.filter(c => c.plan==='5/3/1 Wendler' && !c.cancelled).length;
+  const countGZCLP = archived.filter(c => c.plan==='GZCLP' && !c.cancelled).length;
 
-  // Update all card IDs (both old setup page and profile page)
-  [['plan-12w','12week'], ['p-plan-12w','12week'], ['plan-531','531'], ['p-plan-531','531']].forEach(([prefix, plan]) => {
+  [['plan-12w','12week'], ['p-plan-12w','12week'], ['plan-531','531'], ['p-plan-531','531'],
+   ['plan-gzclp','gzclp'], ['p-plan-gzclp','gzclp']].forEach(([prefix, planId]) => {
     const badge = document.getElementById(prefix+'-badge');
     const card = document.getElementById(prefix+'-card');
     const count = document.getElementById(prefix+'-count');
-    const cnt = plan==='12week' ? count12 : count531;
-    if(badge) badge.style.display = activePlan===plan ? 'inline-block' : 'none';
-    if(card) { card.classList.toggle('active-plan', activePlan===plan); card.style.opacity='1'; }
+    const cnt = planId==='12week' ? count12 : (planId==='531' ? count531 : countGZCLP);
+    if(badge) badge.style.display = activePlan===planId ? 'inline-block' : 'none';
+    if(card) { card.classList.toggle('active-plan', activePlan===planId); card.style.opacity='1'; }
     if(count) { count.textContent = cnt>0?cnt+'× completed':''; count.className='plan-completion-count'+(cnt>0?' has-count':''); }
   });
 
   const sub = document.getElementById('training-plan-sub');
-  if(sub) sub.textContent = (activePlan==='531'?'5/3/1 Wendler':'12-Week Periodization') + ' · Active';
+  if(sub) sub.textContent = (activePlan==='531'?'5/3/1 Wendler':(activePlan==='gzclp'?'GZCLP':'12-Week Periodization')) + ' · Active';
   const psub = document.getElementById('profile-plan-sub');
   if(psub) psub.textContent = getActivePlan().name + ' · Active';
 }
@@ -3173,7 +3364,49 @@ function buildSessionView(d, lift, presc, saved, hasSave, isSkipped) {
   let setsHtml = '';
 
   if(lift && presc) {
-    if(plan.useTM && presc.weekPlan) {
+    if(plan.isGZCLP && presc.isGZCLP && presc.tier === 'T1') {
+      // GZCLP: T1 (5×3) + T2 (3×10) + T3 (2×15+)
+      const t1LoadText = presc.load
+        ? `<span class="session-set-load">${presc.load} ${u}</span>`
+        : `<span class="session-set-pct" onclick="switchPage('prs')">Set weight</span>`;
+      const failCount = parseInt(localStorage.getItem('ll_gzclp_fails_' + lift.replace(/ /g,'_')) || '0');
+      setsHtml += `<div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:6px">T1 — ${lift}</div>`;
+      for(let i = 1; i <= 5; i++) {
+        setsHtml += `<div class="session-set-row">
+          <span class="session-set-num">${i}</span>
+          <span class="session-set-text">3 reps @ ${t1LoadText}</span>
+        </div>`;
+      }
+      if(presc.t2) {
+        const t2 = presc.t2;
+        const t2LoadText = t2.load
+          ? `<span class="session-set-load">${t2.load} ${u}</span>`
+          : `<span class="session-set-pct" onclick="switchPage('prs')">Set weight</span>`;
+        setsHtml += `<div style="height:1px;background:var(--border);margin:10px 0"></div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px">T2 — ${t2.lift}</div>`;
+        for(let i = 1; i <= 3; i++) {
+          setsHtml += `<div class="session-set-row">
+            <span class="session-set-num">${i}</span>
+            <span class="session-set-text">10 reps @ ${t2LoadText}</span>
+          </div>`;
+        }
+      }
+      if(presc.t3) {
+        setsHtml += `<div style="height:1px;background:var(--border);margin:10px 0"></div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px">T3 — ${presc.t3.lift}</div>
+          <div class="session-set-row">
+            <span class="session-set-num">1</span>
+            <span class="session-set-text">2×15+ <span style="font-size:11px;color:var(--accent)">AMRAP</span></span>
+          </div>`;
+      }
+      setsHtml += `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--muted)">
+          <input type="checkbox" id="d${d}_t1_fail" style="width:15px;height:15px;accent-color:var(--accent)">
+          <span>Couldn't complete T1 sets</span>
+          ${failCount > 0 ? `<span style="margin-left:auto;font-size:11px;color:var(--accent)">${failCount}/3 fails</span>` : ''}
+        </label>
+      </div>`;
+    } else if(plan.useTM && presc.weekPlan) {
       // 5/3/1: show 3 working sets
       const weekPlan = presc.weekPlan;
       const sets531 = weekPlan.sets || [];
